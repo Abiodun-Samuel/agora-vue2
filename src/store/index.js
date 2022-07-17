@@ -27,3 +27,6 @@ export const store = new Vuex.Store({
   plugins: [dataState],
   // plugins: [debug ? createLogger() : [], dataState],
 });
+
+
+ 

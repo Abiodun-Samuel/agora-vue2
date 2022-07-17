@@ -1,7 +1,5 @@
 <template>
   <div class="meet">
-    <div class="pt-5 mt-5"></div>
-
     <div class="local_player">
       <agora
         :clientConfig="{
@@ -43,14 +41,39 @@
           :refuse="refuseList"
         ></agora-video-receiver>
       </agora>
+      <agora
+        v-if="openScreenSharing"
+        :channel="channel"
+        :appid="appid"
+        :token="token"
+        :uid="shareScreenUID"
+        ref="screenAr"
+      >
+        <agora-video-sender
+          customizationPlayer
+          type="screen"
+          @video-ready="handleScreenVideoReady"
+          @video-close="handleScreenVideoClose"
+          @video-create-failed="handleScreenVideoFailed"
+        ></agora-video-sender>
+      </agora>
     </div>
-    <div class="player">
-      <div class="user-vision" v-for="user_id in userIdList" :key="user_id">
-        <!-- :class="{
+    <div
+      class="player"
+      :class="{
+        'screen-share-player': youAreShareScreening || otherIsShareScreening,
+      }"
+    >
+      <div
+        class="user-vision"
+        :class="{
           'screen-share-vision': user_id === shareScreenUID,
           'screen-share-vision-pined':
             user_id === shareScreenUID && user_id === pinedUid,
-        }" -->
+        }"
+        v-for="user_id in userIdList"
+        :key="user_id"
+      >
         <div
           v-if="playList.find((e) => e.uid === user_id)"
           v-player="playList.find((e) => e.uid === user_id)"
@@ -107,28 +130,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="notify">
-      <div class="remote-user" @click="handleExpandUserList">
-        User: {{ users.length }}
-      </div>
-      <div class="local-user">
-        <div class="local-camera-player">
-          <voice-dot
-            :mute="this.mute"
-            :level="this.localVolumeLevel"
-            class="voice-dot-local"
-          />
-          <video
-            v-show="!cameraIsClosed"
-            autoplay
-            mute
-            ref="localCameraPlayer"
-          ></video>
-          <img v-show="cameraIsClosed" src="../assets/yonghu.svg" alt="" />
-        </div>
-      </div>
-    </div> -->
-    <!-- <div class="user-list" v-show="showExpandUserList">
+    <div class="user-list" v-show="showExpandUserList">
       <p @click="handleCustom">All users in the meeting :</p>
       <ul>
         <li v-for="(item, index) in users" :key="index">
@@ -155,11 +157,10 @@
           {{ item.uid || item }}
         </li>
       </ul>
-    </div> -->
-
+    </div>
     <div class="banner">
       <mp-button :class="microphoneClass" @click="handleMute" />
-      <!-- <on-call-button v-if="!inMeeting" @click="handleCall" /> -->
+      <on-call-button v-if="!inMeeting" @click="handleCall" />
       <!-- <close-button v-if="inMeeting" @click="handleLeave" /> -->
       <video-button :class="cameraClass" @click="handleCamera" />
     </div>
