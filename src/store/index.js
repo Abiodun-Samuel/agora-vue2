@@ -1,4 +1,4 @@
-import createLogger from "vuex/dist/logger";
+// import createLogger from "vuex/dist/logger";
 import Vue from "vue";
 import Vuex from "vuex";
 import userStore from "./modules/userStore";
@@ -8,7 +8,7 @@ import SecureLS from "secure-ls";
 const ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex);
-const debug = process.env.NODE_ENV !== "production";
+// const debug = process.env.NODE_ENV !== "production";
 
 const dataState = createPersistedState({
   paths: ["userStore.userDetails"],
