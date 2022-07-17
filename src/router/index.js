@@ -12,7 +12,7 @@ const routes = [
     component: HomePage,
   },
   {
-    path: "/notary_session/:agora",
+    path: "/notary_session/:appid/:channel/:token/:uid",
     name: "Notary",
     component: NotarySession,
   },
