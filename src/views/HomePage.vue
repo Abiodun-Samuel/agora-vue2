@@ -41,8 +41,13 @@
     >
       <a
         class="btn btn-primary"
-        href="http://localhost:8081/notary_session/3a7155f8a86345d7ad31066ac2a8ed48&&&test&&&0063a7155f8a86345d7ad31066ac2a8ed48IAAMfoW+hKEsUgk7k4QOaLK4EW0yZn13jqZprjSBnHCe5Ax+f9jFt95fIgCGkq0zCkbVYgQAAQCaAtRiAgCaAtRiAwCaAtRiBACaAtRi&&&samuel"
+        href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48&&&test&&&0063a7155f8a86345d7ad31066ac2a8ed48IAAMfoW+hKEsUgk7k4QOaLK4EW0yZn13jqZprjSBnHCe5Ax+f9jFt95fIgCGkq0zCkbVYgQAAQCaAtRiAgCaAtRiAwCaAtRiBACaAtRi&&&samuel"
         >Test Link</a
+      >
+      <a
+        class="btn btn-primary"
+        href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48&&&test&&&0063a7155f8a86345d7ad31066ac2a8ed48IAA4Ha8PWJprEEHg76niROacN4X9tWCXsyzcGdLdg1xRAAx+f9h6dnLBIgCGkq0zvUzVYgQAAQBNCdRiAgBNCdRiAwBNCdRiBABNCdRi&&&segun"
+        >Test Link 2</a
       >
     </div>
   </div>
