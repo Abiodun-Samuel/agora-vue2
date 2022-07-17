@@ -8,10 +8,10 @@
           role: 'publisher',
         }"
         ref="ar"
-        :uid="$store.state.userStore.userDetails.id"
-        :channel="$store.state.notarySessionStore.session_details.channel"
-        :appid="$store.state.notarySessionStore.session_details.appId"
-        :token="$store.state.notarySessionStore.session_details.agora_token"
+        :channel="channel"
+        :uid="uid"
+        :appid="appid"
+        :token="token"
         :autoStart="true"
         :errorHandler="handleError"
         @user-joined="handleUserJoin"
@@ -231,6 +231,9 @@ export default {
     token: {
       type: [String, null],
     },
+    uid: {
+      type: [String, null],
+    },
     preMute: {
       type: Boolean,
       default: false,
@@ -246,7 +249,7 @@ export default {
       handleError: (error) => {
         this.$message.error(error.message || error);
       },
-      uid: this.$store.state.userStore.userDetails.id,
+      uidd: this.uid,
       cameraIsClosed: false,
       inMeeting: false,
       remoteUsers: [],
@@ -408,7 +411,7 @@ export default {
       this.$refs.ar.leave().then(() => {
         this.inMeeting = false;
         this.remoteUsers = [];
-        this.uid = null;
+        this.uidd = null;
         this.$message.success("Left the meeting successfully");
         this.$emit("leave-meeting");
       });

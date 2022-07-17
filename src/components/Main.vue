@@ -172,11 +172,11 @@ export default {
       backSpeed: 0,
     });
 
-    this.$store.commit("notarySessionStore/SESSION_DETAILS", {
-      token: this.$route.query.at,
-      channel: this.$route.query.channel,
-      appId: this.$route.query.ai,
-    });
+    // this.$store.commit("notarySessionStore/SESSION_DETAILS", {
+    //   token: this.$route.query.at,
+    //   channel: this.$route.query.channel,
+    //   appId: this.$route.query.ai,
+    // });
 
     // check if not loggged in
     if (!this.$store.state.userStore.userDetails) {

@@ -3,7 +3,8 @@
     <meet
       v-if="isJoinMeeting"
       :channel="channel"
-      :appid="appId"
+      :appid="appid"
+      :uid="uid"
       :token="token"
       :preMute="config.mute"
       :preCameraOff="config.cameraOff"
@@ -37,59 +38,95 @@ export default {
     return {
       isJoinMeeting: false,
       config: null,
-      appid: this.$route.query.ai,
-      channel: this.$route.query.channel,
-      token: this.$route.query.at,
+      appid: null,
+      channel: null,
+      token: null,
+      uid: null,
     };
   },
-  // watch: {
-  //   appid: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       if (!newV || newV === "null" || newV === undefined) {
-  //         const appid = process.env.VUE_APP_AGORA_APP_ID;
-  //         if (appid) {
-  //           localStorage.setItem("appid", appid);
-  //           this.appid = appid;
-  //         }
-  //         // else {
-  //         //   window.location.reload();
-  //         // }
-  //       }
-  //     },
-  //   },
-  //   channel: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       if (!newV || newV === "null" || newV === undefined) {
-  //         const channel = this.$route.query.channel;
-  //         if (channel) {
-  //           sessionStorage.setItem("channel", channel);
-  //           this.channel = channel;
-  //         }
-  //         //  else {
-  //         //   window.location.reload();
-  //         // }
-  //       }
-  //     },
-  //   },
-  //   token: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       if (!newV && newV !== null) {
-  //         const token = this.$route.query.at;
-  //         if (token) {
-  //           localStorage.setItem("token", token);
-  //           this.token =
-  //             token === "null" ? null : token === null ? undefined : token;
-  //         }
-  //         // else {
-  //         //   window.location.reload();
-  //         // }
-  //       }
-  //     },
-  //   },
-  // },
+  watch: {
+    appid: {
+      immediate: true,
+      handler(newV) {
+        const url = this.$route.params.agora.split("&&&");
+        console.log(url);
+        this.appid = url[0];
+        this.channel = url[1];
+        this.token = url[2];
+        this.uid = url[3];
+        if (!newV || newV === "null" || newV === undefined) {
+          const appid = url[0];
+          if (appid) {
+            localStorage.setItem("appid", appid);
+            this.appid = appid;
+          } else {
+            window.location.reload();
+          }
+        }
+      },
+    },
+    channel: {
+      immediate: true,
+      handler(newV) {
+        const url = this.$route.params.agora.split("&&&");
+        console.log(url);
+        this.appid = url[0];
+        this.channel = url[1];
+        this.token = url[2];
+        this.uid = url[3];
+        if (!newV || newV === "null" || newV === undefined) {
+          const channel = url[1];
+          if (channel) {
+            sessionStorage.setItem("channel", channel);
+            this.channel = channel;
+          } else {
+            window.location.reload();
+          }
+        }
+      },
+    },
+    token: {
+      immediate: true,
+      handler(newV) {
+        const url = this.$route.params.agora.split("&&&");
+        console.log(url);
+        this.appid = url[0];
+        this.channel = url[1];
+        this.token = url[2];
+        this.uid = url[3];
+        if (!newV && newV !== null) {
+          const token = url[2];
+          if (token) {
+            localStorage.setItem("token", token);
+            this.token =
+              token === "null" ? null : token === null ? undefined : token;
+          } else {
+            window.location.reload();
+          }
+        }
+      },
+    },
+    uid: {
+      immediate: true,
+      handler(newV) {
+        const url = this.$route.params.agora.split("&&&");
+        console.log(url);
+        this.appid = url[0];
+        this.channel = url[1];
+        this.token = url[2];
+        this.uid = url[3];
+        if (!newV && newV !== null) {
+          const uid = url[3];
+          if (uid) {
+            localStorage.setItem("uid", uid);
+            this.uid = uid === "null" ? null : uid === null ? undefined : uid;
+          } else {
+            window.location.reload();
+          }
+        }
+      },
+    },
+  },
   methods: {
     handleJoinMeeting(config) {
       this.isJoinMeeting = true;
@@ -100,9 +137,9 @@ export default {
     },
   },
   mounted() {
-    this.appid = process.env.VUE_APP_AGORA_APP_ID;
-    this.token = this.$route.query.at;
-    this.channel = this.$route.query.channel;
+    // this.appid = process.env.VUE_APP_AGORA_APP_ID;
+    // this.token = this.$route.query.at;
+    // this.channel = this.$route.query.channel;
   },
 };
 </script>

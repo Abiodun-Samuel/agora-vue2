@@ -12,7 +12,7 @@ const routes = [
     component: HomePage,
   },
   {
-    path: "/notary_session",
+    path: "/notary_session/:agora",
     name: "Notary",
     component: NotarySession,
   },
