@@ -24,5 +24,6 @@ export const store = new Vuex.Store({
     userStore,
     notarySessionStore,
   },
-  plugins: [debug ? createLogger() : [], dataState],
+  plugins: [dataState],
+  // plugins: [debug ? createLogger() : [], dataState],
 });
