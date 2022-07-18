@@ -1,231 +1,105 @@
 <template>
   <div class="container mt-5 pt-5">
-    <!-- <a
-      target="_blank"
-      class="btn btn-primary"
-      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IADCywAghM2dyfQ2Cdl6kw76M6RuEsx3Wqrf1VFYT/aKHQx+f9h6dnLBIgCyhrpgt4XVYgQAAQBHQtRiAgBHQtRiAwBHQtRiBABHQtRi/segun"
-      >Test Link</a
-    > -->
-    <a
-      target="_blank"
-      class="btn btn-primary"
-      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAD8GDbstmo0lkX7ezfgLcyGNioMSagG8jFkmr18FFSkRwx+f9jYl6JpIgAxRoX15qPVYgQAAQCma9ViAgCma9ViAwCma9ViBACma9Vi/man"
-      >Test Link</a
-    >
-
-    <a
-      target="_blank"
-      class="btn btn-primary"
-      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAB2sP23R3BeGdfyY0CjxgSM1NeQKahqh12NUj7YFx1RWAx+f9gHZmq1IgAxRoX19KTVYgQAAQC0bNViAgC0bNViAwC0bNViBAC0bNVi/abiodun"
-      >Test Link</a
-    >
-
     <!-- <agora
-      appid="3a7155f8a86345d7ad31066ac2a8ed48"
-      channel="test"
-      token="0063a7155f8a86345d7ad31066ac2a8ed48IABkic2J6WT2GqnsEi3yMWIeotTcKYOQZO+yGQI5S08ujwx+f9jdOgzqIgCGkq0zuyTVYgQAAQBL4dNiAgBL4dNiAwBL4dNiBABL4dNi"
-      uid="7754b75e-7590-4419-b250-f9b6b1b2df95"
+      :clientConfig="{
+        mode: 'rtc',
+        codec: 'vp8',
+        role: 'publisher',
+      }"
+      ref="ar"
+      :channel="$route.params.channel"
+      :uid="$route.params.uid"
+      :appid="$route.params.appid"
+      :token="$route.params.token"
+      :autoStart="true"
+      @join-success="handleJoinSuccess"
     >
       <agora-audio-sender />
       <agora-audio-receiver />
-      <agora-video-sender />
+      <agora-video-sender :cameraOff="cameraIsClosed" />
       <agora-video-receiver />
     </agora> -->
-    <!-- <agora :appid="appid" :channel="channel" :token="token" :uid="uid">
-      <div>
-        <agora-video-sender
-          @video-ready="handleVideoReady"
-          :cameraOff="cameraOff"
-        />
-        <agora-audio-sender
-          ref="audioSender"
-          :mute="mute"
-          @track-created="handleTrackCreated"
-        />
-        <button @click="handleMpClick" class="btn btn-primary m-2">mic</button>
-        <button @click="handleVideoClick" class="btn btn-primary m-2">
-          video
-        </button>
-      </div>
-      <div>
-        <agora-audio-receiver />
-        <agora-video-receiver />
-      </div>
-    </agora> -->
+    {{ uidd }}
+    <button @click="handleMute">MiC</button>
+    <button @click="handleCamera">Video</button>
 
-    <!-- {{ $route.params.agora }} <br /> -->
-    <!-- :appid/:channel/:token/:uid -->
-
-    <!-- <input
-      type="text"
-      v-model="name"
-      class="form-control"
-      placeholder="Enter your name"
-    />
-    <div class="mt-2">
-      <button @click="generate" class="btn btn-success me-2">
-        Generate Join
-      </button>
-      <button class="btn btn-primary me-2" :disabled="disabled">Join</button>
-    </div> -->
-    <!-- <div
-      class="container mt-5 d-flex align-items-center justify-content-center"
-      style="height: 50vh"
+    <a
+      target="_blank"
+      class="btn btn-primary mx-2"
+      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAD16GohwusML8yBHP5Sx8WHPKaxUB9PL4MzVmJIpx2UTwx+f9j35EfcIgAswS1zKMfVYgQAAQDojtViAgDojtViAwDojtViBADojtVi/abe"
+      >Test a</a
     >
-      
-      <a
-        class="btn btn-primary"
-        href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48&&&test&&&0063a7155f8a86345d7ad31066ac2a8ed48IAA4Ha8PWJprEEHg76niROacN4X9tWCXsyzcGdLdg1xRAAx+f9h6dnLBIgCGkq0zvUzVYgQAAQBNCdRiAgBNCdRiAwBNCdRiBABNCdRi&&&segun"
-        >Test Link 2</a
-      >
-    </div> -->
+    <a
+      target="_blank"
+      class="btn btn-primary nx-2"
+      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAD8GDbstmo0lkX7ezfgLcyGNioMSagG8jFkmr18FFSkRwx+f9jYl6JpIgAxRoX15qPVYgQAAQCma9ViAgCma9ViAwCma9ViBACma9Vi/man"
+      >Test b</a
+    >
+
+    <a
+      target="_blank"
+      class="btn btn-primary mx-2"
+      href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAB2sP23R3BeGdfyY0CjxgSM1NeQKahqh12NUj7YFx1RWAx+f9gHZmq1IgAxRoX19KTVYgQAAQC0bNViAgC0bNViAwC0bNViBAC0bNVi/abiodun"
+      >Test c</a
+    >
   </div>
-  <!-- /notary_session/-->
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import Vue from "vue";
 
 export default {
   data() {
     return {
       disabled: true,
-      name: null,
-      // mute: false,
-      // level: 0,
-      // cameraOff: false,
-      appid: null,
-      channel: null,
-      token: null,
-      uid: null,
+      cameraIsClosed: false,
+      uidd: null,
     };
   },
-  // watch: {
-  //   appid: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       const url = this.$route.params.agora.split("&&&");
-  //       console.log(url);
-  //       this.appid = url[0];
-  //       this.channel = url[1];
-  //       this.token = url[2];
-  //       this.uid = url[3];
-  //       if (!newV || newV === "null" || newV === undefined) {
-  //         const appid = url[0];
-  //         if (appid) {
-  //           localStorage.setItem("appid", appid);
-  //           this.appid = appid;
-  //         } else {
-  //           window.location.reload();
-  //         }
-  //       }
-  //     },
-  //   },
-  //   channel: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       const url = this.$route.params.agora.split("&&&");
-  //       console.log(url);
-  //       this.appid = url[0];
-  //       this.channel = url[1];
-  //       this.token = url[2];
-  //       this.uid = url[3];
-  //       if (!newV || newV === "null" || newV === undefined) {
-  //         const channel = url[1];
-  //         if (channel) {
-  //           sessionStorage.setItem("channel", channel);
-  //           this.channel = channel;
-  //         } else {
-  //           window.location.reload();
-  //         }
-  //       }
-  //     },
-  //   },
-  //   token: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       const url = this.$route.params.agora.split("&&&");
-  //       console.log(url);
-  //       this.appid = url[0];
-  //       this.channel = url[1];
-  //       this.token = url[2];
-  //       this.uid = url[3];
-  //       if (!newV && newV !== null) {
-  //         const token = url[2];
-  //         if (token) {
-  //           localStorage.setItem("token", token);
-  //           this.token =
-  //             token === "null" ? null : token === null ? undefined : token;
-  //         } else {
-  //           window.location.reload();
-  //         }
-  //       }
-  //     },
-  //   },
-  //   uid: {
-  //     immediate: true,
-  //     handler(newV) {
-  //       const url = this.$route.params.agora.split("&&&");
-  //       console.log(url);
-  //       this.appid = url[0];
-  //       this.channel = url[1];
-  //       this.token = url[2];
-  //       this.uid = url[3];
-  //       if (!newV && newV !== null) {
-  //         const uid = url[3];
-  //         if (uid) {
-  //           localStorage.setItem("uid", uid);
-  //           this.uid = uid === "null" ? null : uid === null ? undefined : uid;
-  //         } else {
-  //           window.location.reload();
-  //         }
-  //       }
-  //     },
-  //   },
-  // },
-  methods: {
-    async generate() {
-      let response;
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
 
-        response = await axios.get(
-          `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${this.name}`,
-          config
-        );
-        if (response.data.token.includes("/")) {
-          this.generate();
-        }
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-      return response;
+  methods: {
+    // async generate() {
+    //   let response;
+    //   try {
+    //     const config = {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     };
+
+    //     response = await axios.get(
+    //       `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${this.name}`,
+    //       config
+    //     );
+    //     if (response.data.token.includes("/")) {
+    //       this.generate();
+    //     }
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   return response;
+    // },
+    handleJoinSuccess(uid) {
+      this.inMeeting = true;
+      this.uidd = uid;
+      Vue.$toast.success("Join the meeting successfully");
     },
-    handleMpClick() {
+    handleMute() {
       this.mute = !this.mute;
+      Vue.$toast.warning(`Microphone Turned ${this.mute ? "OFF" : "ON"}`);
     },
-    handleVideoClick() {
-      this.cameraOff = !this.cameraOff;
+    handleCamera() {
+      this.cameraIsClosed = !this.cameraIsClosed;
+      Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
     },
-    handleVideoReady(localVideo) {
-      this.localVideoDirective = localVideo;
-    },
-    handleTrackCreated() {
-      let id = undefined;
-      const callback = () => {
-        this.level = this.$refs.audioSender.getTrack().getVolumeLevel();
-        id = window.requestAnimationFrame(callback);
-      };
-      id = window.requestAnimationFrame(callback);
-      this.$once("hook:beforeDestroy", () => {
-        window.cancelAnimationFrame(id);
-      });
-    },
+    // microphoneClass() {
+    //   return this.mute ? "mp-mute" : "mp-normal";
+    // },
+    // cameraClass() {
+    //   return this.cameraIsClosed ? "video-mute" : "video-normal";
+    // },
   },
   // created() {
   //   // :appid/:channel/:token/:uid -

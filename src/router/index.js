@@ -7,8 +7,13 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/:appid/:channel/:token/:uid",
     name: "Home",
+    component: HomePage,
+  },
+  {
+    path: "/",
+    name: "HomePage",
     component: HomePage,
   },
   {

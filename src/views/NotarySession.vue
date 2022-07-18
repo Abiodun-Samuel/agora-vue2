@@ -1,7 +1,34 @@
 <template>
   <div>
-    <meet
-      v-if="isJoinMeeting"
+    <div v-if="isJoinMeeting">
+      <div class="container">
+        <div class="my-1 py-1"></div>
+        <div class="row">
+          <!-- toolbox display section  -->
+          <div class="col-lg-2 my-2">
+            <ToolBox />
+          </div>
+          <!-- document display section  -->
+          <div class="col-lg-7 my-2">
+            <DocumentBox />
+          </div>
+          <!-- video display section  -->
+          <div class="col-lg-3 my-2">
+            <VideoBox
+              :channel="channel"
+              :appid="appid"
+              :uid="uid"
+              :token="token"
+              @leave-meeting="handleLeaveMeeting"
+            />
+            <!-- :preMute="config.mute"
+              :preCameraOff="config.cameraOff" -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <meet
+      
       :channel="channel"
       :appid="appid"
       :uid="uid"
@@ -9,7 +36,7 @@
       :preMute="config.mute"
       :preCameraOff="config.cameraOff"
       @leave-meeting="handleLeaveMeeting"
-    />
+    /> -->
     <div v-else>
       <main-page
         @join-meeting="handleJoinMeeting"
@@ -17,21 +44,22 @@
         :appid="appid"
         :token="token"
       />
-      <!-- {{ $store.state.notarySessionStore.session_details.agora_token }} <br /> -->
-      <!-- {{ $route.params.ai }} <br />
-      {{ $route.params.channel }} <br /> -->
     </div>
   </div>
 </template>
 
 <script>
-import Meet from "@/components/Meet.vue";
+import DocumentBox from "../components/Document/DocumentBox.vue";
+import ToolBox from "../components/Tool/ToolBox.vue";
+import VideoBox from "../components/Video/VideoBox.vue";
 import MainPage from "@/components/Main.vue";
 
 export default {
   name: "NotarySession",
   components: {
-    Meet,
+    DocumentBox,
+    ToolBox,
+    VideoBox,
     MainPage,
   },
   data() {
