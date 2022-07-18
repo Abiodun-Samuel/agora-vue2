@@ -29,12 +29,32 @@
           @video-ready="handleVideoReady"
           @video-close="handleVideoClose"
         />
+        <!-- "mp-mute" : "mp-normal"
+"video-mute" : "video-normal" -->
+
+        <!-- <button v-if="!camera" class="icon__off" @click="camera__on">
+                <Icon icon="carbon:video-off-filled" />
+              </button>
+              <button v-if="camera" class="icon__on" @click="camera__off">
+                <Icon icon="carbon:video-filled" />
+              </button> -->
         <div class="d-flex justify-content-center gap-1 align-items-center">
           <button id="mic-btn" @click="handleMute">
-            <span class="iconify" data-icon="fa:microphone"></span>
+            <div v-show="mute">
+              <span class="iconify" data-icon="fa:microphone-slash"></span>
+            </div>
+            <div v-show="!mute">
+              <span class="iconify" data-icon="fa:microphone"></span>
+            </div>
           </button>
+
           <button id="camera-btn" @click="handleCamera">
-            <span class="iconify" data-icon="carbon:video-filled"></span>
+            <div v-show="cameraIsClosed">
+              <span class="iconify" data-icon="carbon:video-off-filled"></span>
+            </div>
+            <div v-show="!cameraIsClosed">
+              <span class="iconify" data-icon="carbon:video-filled"></span>
+            </div>
           </button>
         </div>
         <agora-audio-receiver />
@@ -160,12 +180,12 @@ export default {
       this.cameraIsClosed = !this.cameraIsClosed;
       Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
     },
-    // microphoneClass() {
-    //   return this.mute ? "mp-mute" : "mp-normal";
-    // },
-    // cameraClass() {
-    //   return this.cameraIsClosed ? "video-mute" : "video-normal";
-    // },
+    //  microphoneClass() {
+    //    return this.mute ? "fa:microphone-slash" : "fa:microphone";
+    //  },
+    //  cameraClass() {
+    //    return this.cameraIsClosed ? "video-mute" : "video-normal";
+    //  },
   },
 };
 </script>
@@ -178,11 +198,7 @@ export default {
 }
 
 .videocall__box {
-  /* overflow-y: scroll; */
-}
-
-.videocall__box {
-  height: 80vh;
+  min-height: 80vh;
   position: sticky;
   top: 70px;
 }
@@ -205,7 +221,7 @@ export default {
 .default-agora-rtc-video-receiver-player {
   position: relative;
   width: 100px !important;
-  height: 100px !important; 
+  height: 100px !important;
   box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
 
   /* background: black; */

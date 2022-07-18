@@ -29,6 +29,12 @@
       >
       <a
         target="_blank"
+        class="btn btn-primary mx-2"
+        href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IACzmBsyqWaTVRh94OUJlgImR3pbroLwciR+vK9bg52legx+f9hDDA4HIgDC3bJ1gYXWYgQAAQBBTdZiAgBBTdZiAwBBTdZiBABBTdZi/ibrahim"
+        >ibrahim</a
+      >
+      <a
+        target="_blank"
         class="btn btn-primary nx-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IACzFYUNOnATg1qjRQsnFTCMUHWTuy8eyAdHXcE+niasYgx+f9i7N499IgD9QV7G5mfWYgQAAQCmL9ZiAgCmL9ZiAwCmL9ZiBACmL9Zi/fikayo"
         >fikayo</a
