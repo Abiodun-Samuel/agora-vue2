@@ -55,12 +55,11 @@
         </div>
       </div>
       <div class="col-lg-5 col-md-6 my-2">
-        <!-- {{ $route.query.channel }} -->
-        <!-- {{ userDetails.id }} -->
-        <div v-if="userDetails?.role[0] === 'User'" class="display-container">
+        <div v-if="'User'" class="display-container">
           <div style="height: 30px" class="mb-3 ps-5">
             <h4 class="element fw-bold"></h4>
           </div>
+
           <div class="text-center">
             <button class="btn btn-primary" @click="handleJoin">Proceed</button
             ><br />
@@ -195,5 +194,8 @@ button[disabled] {
   border: none;
   cursor: not-allowed !important;
   box-shadow: none;
+}
+.hidden {
+  display: none;
 }
 </style>
