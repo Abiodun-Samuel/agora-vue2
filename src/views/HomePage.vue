@@ -23,13 +23,13 @@
     <div class="my-2">
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IADJ1TPHpYd882cOZMuHfEXhapt1Imf8avqJv3RxtMNtOAx+f9hp0D9dIgD9QV7GgWfWYgQAAQBBL9ZiAgBBL9ZiAwBBL9ZiBABBL9Zi/shaffi"
         >shaffi</a
       >
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IACzmBsyqWaTVRh94OUJlgImR3pbroLwciR+vK9bg52legx+f9hDDA4HIgDC3bJ1gYXWYgQAAQBBTdZiAgBBTdZiAwBBTdZiBABBTdZi/ibrahim"
         >ibrahim</a
       >
@@ -42,14 +42,14 @@
 
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAArCofJ555mEcIdsZie20jn0n8mVHr63ZAtdajwWWVtVAx+f9gHZmq1IgD9QV7GEWjWYgQAAQDRL9ZiAgDRL9ZiAwDRL9ZiBADRL9Zi/abiodun"
         >abiodun</a
       >
 
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IACED6LnUeZwYfkERp3tqwpb8o6Vo1Fvul62tnITydU2Zgx+f9jHpyatIgD9QV7GaG3WYgQAAQAoNdZiAgAoNdZiAwAoNdZiBAAoNdZi/unknown"
         >extra</a
       >
@@ -59,14 +59,14 @@
       <p>Another Room</p>
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/testtwo/0063a7155f8a86345d7ad31066ac2a8ed48IADMCmULF6Pkykr4L368VgGdfmUsDjHtkrPJ0LV1TSigUw9L1mlCSbEsIgD9QV7G0mzWYgQAAQCSNNZiAgCSNNZiAwCSNNZiBACSNNZi/adegoke"
         >goke</a
       >
 
       <a
         target="_blank"
-        class="btn btn-primary mx-2"
+        class="btn btn-primary m-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/testtwo/0063a7155f8a86345d7ad31066ac2a8ed48IAAkqJfNzAai5lLmHAyleWdZLVeHv2hCnaAOfC2zPyXE3g9L1mnHpyatIgD9QV7GOm3WYgQAAQD6NNZiAgD6NNZiAwD6NNZiBAD6NNZi/unknown"
         >extra</a
       >
