@@ -55,7 +55,7 @@
     <div
       class="player"
       :class="{
-        'screen-share-player': youAreShareScreening || otherIsShareScreening
+        'screen-share-player': youAreShareScreening || otherIsShareScreening,
       }"
     >
       <div
@@ -63,14 +63,14 @@
         :class="{
           'screen-share-vision': user_id === shareScreenUID,
           'screen-share-vision-pined':
-            user_id === shareScreenUID && user_id === pinedUid
+            user_id === shareScreenUID && user_id === pinedUid,
         }"
         v-for="user_id in userIdList"
         :key="user_id"
       >
         <div
-          v-if="playList.find(e => e.uid === user_id)"
-          v-player="playList.find(e => e.uid === user_id)"
+          v-if="playList.find((e) => e.uid === user_id)"
+          v-player="playList.find((e) => e.uid === user_id)"
           class="player-vision"
           v-show="!streamFallbackList.includes(user_id)"
         ></div>
@@ -88,7 +88,7 @@
             "
             :mute="
               audioStatusObj[user_id || uid] &&
-                audioStatusObj[user_id || uid].mute !== false
+              audioStatusObj[user_id || uid].mute !== false
             "
           />
           <p>
@@ -106,9 +106,12 @@
           "
           :mute="
             audioStatusObj[user_id || uid] &&
-              audioStatusObj[user_id || uid].mute !== false
+            audioStatusObj[user_id || uid].mute !== false
           "
-          :cameraOff="!playList.find(e => e.uid === user_id) || streamFallbackList.includes(user_id)"
+          :cameraOff="
+            !playList.find((e) => e.uid === user_id) ||
+            streamFallbackList.includes(user_id)
+          "
         />
         <div class="central">
           <pin-button
@@ -156,7 +159,7 @@
             "
             :mute="
               audioStatusObj[item.uid || uid] &&
-                audioStatusObj[item.uid || uid].mute !== false
+              audioStatusObj[item.uid || uid].mute !== false
             "
           />
           <pin-button
@@ -201,7 +204,7 @@ import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
 
 export default {
-  name: "MeetCom",
+  name: "MeetComponent",
   components: {
     MpButton,
     CloseButton,
@@ -209,31 +212,31 @@ export default {
     VideoButton,
     VoiceDot,
     AvatarAudio,
-    PinButton
+    PinButton,
   },
   props: {
     channel: {
-      type: [String, null]
+      type: [String, null],
     },
     appid: {
-      type: [String, null]
+      type: [String, null],
     },
     token: {
-      type: [String, null]
+      type: [String, null],
     },
     preMute: {
       type: Boolean,
-      default: false
+      default: false,
     },
     preCameraOff: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       mute: false,
-      handleError: error => {
+      handleError: (error) => {
         this.$message.error(error.message || error);
       },
       uid: null,
@@ -252,7 +255,7 @@ export default {
       openScreenSharing: false,
       youAreShareScreening: false,
       shareScreenUID: 99991234,
-      streamFallbackList: []
+      streamFallbackList: [],
     };
   },
   computed: {
@@ -278,7 +281,7 @@ export default {
       return result;
     },
     unpinedUserIdList() {
-      let result = [...this.remoteUsers.map(user => user.uid)];
+      let result = [...this.remoteUsers.map((user) => user.uid)];
       this.uid && result.unshift(this.uid);
       this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
@@ -298,21 +301,21 @@ export default {
     remoteAudioStatusObj() {
       const volumeLevel = Object.assign(
         {},
-        ...this.remoteVolumeLevelList.map(e => ({ [e.uid]: e.result }))
+        ...this.remoteVolumeLevelList.map((e) => ({ [e.uid]: e.result }))
       );
       const muteStatus = Object.assign(
         {},
-        ...this.remoteMuteStatus.map(e => ({ [e.uid]: e.result }))
+        ...this.remoteMuteStatus.map((e) => ({ [e.uid]: e.result }))
       );
       return Object.assign(
         {},
         ...this.remoteUsers
-          .map(user => user.uid)
-          .map(k => ({
+          .map((user) => user.uid)
+          .map((k) => ({
             [k]: {
               level: volumeLevel[k] || 0,
-              mute: muteStatus[k] !== false
-            }
+              mute: muteStatus[k] !== false,
+            },
           }))
       );
     },
@@ -320,12 +323,12 @@ export default {
       return this.localVolumeLevel || this.localVolumeLevel === 0
         ? {
             ...{
-              [this.uid]: { level: this.localVolumeLevel, mute: this.mute }
+              [this.uid]: { level: this.localVolumeLevel, mute: this.mute },
             },
-            ...this.remoteAudioStatusObj
+            ...this.remoteAudioStatusObj,
           }
         : {
-            ...this.remoteAudioStatusObj
+            ...this.remoteAudioStatusObj,
           };
     },
     otherIsShareScreening() {
@@ -333,14 +336,14 @@ export default {
         !this.youAreShareScreening &&
         this.unpinedUserIdList.includes(this.shareScreenUID)
       );
-    }
+    },
   },
   watch: {
     cameraIsClosed(newV) {
       if (!newV && this.$refs.videoSender && this.$refs.localCameraPlayer) {
         this.playLocalVideoOnTopBanner();
       }
-    }
+    },
   },
   created() {
     this.mute = this.preMute;
@@ -415,7 +418,7 @@ export default {
       this.remoteUsers = this.$refs.ar
         .getRemoteUsers()
         .filter(
-          user => !this.openScreenSharing || user.uid !== this.shareScreenUID
+          (user) => !this.openScreenSharing || user.uid !== this.shareScreenUID
         );
       this.handleCheckRemoteUserAudioMuteStatus();
     },
@@ -431,7 +434,7 @@ export default {
       this.remoteUsers = this.$refs.ar
         .getRemoteUsers()
         .filter(
-          user => !this.openScreenSharing || user.uid !== this.shareScreenUID
+          (user) => !this.openScreenSharing || user.uid !== this.shareScreenUID
         );
 
       if (user.uid === this.pinedUid) {
@@ -531,16 +534,18 @@ export default {
     },
     handleStreamFallback(uid, type) {
       const list = this.streamFallbackList;
-      console.log(`[Agora Web Multi-party Call Demo.Vue] : stream fallback: uid ${uid}, type: ${type}`)
+      console.log(
+        `[Agora Web Multi-party Call Demo.Vue] : stream fallback: uid ${uid}, type: ${type}`
+      );
       if (type === "recover") {
-        this.streamFallbackList = list.filter(e => e !== uid);
+        this.streamFallbackList = list.filter((e) => e !== uid);
       } else if (type === "fallback") {
         this.streamFallbackList = [...new Set([...list, uid])];
       } else {
         this.$message.error("stream fallback type error");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -549,6 +554,6 @@ video.agora_video_player
   object-fit: contain !important
 </style>
 
-<style scoped lang="stylus">
+<style scoped lang="styl">
 @import "../styles/meet/index.styl"
 </style>

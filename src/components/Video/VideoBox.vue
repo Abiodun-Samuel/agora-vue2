@@ -29,15 +29,7 @@
           @video-ready="handleVideoReady"
           @video-close="handleVideoClose"
         />
-        <!-- "mp-mute" : "mp-normal"
-"video-mute" : "video-normal" -->
 
-        <!-- <button v-if="!camera" class="icon__off" @click="camera__on">
-                <Icon icon="carbon:video-off-filled" />
-              </button>
-              <button v-if="camera" class="icon__on" @click="camera__off">
-                <Icon icon="carbon:video-filled" />
-              </button> -->
         <div class="d-flex justify-content-center gap-1 align-items-center">
           <button id="mic-btn" @click="handleMute">
             <div v-show="mute">
@@ -60,7 +52,6 @@
         <agora-audio-receiver />
 
         <agora-video-receiver @video-ready="handleRemoteVideoReady">
-          <!-- <div class="player"></div> -->
         </agora-video-receiver>
       </agora>
     </div>
@@ -69,6 +60,8 @@
 
 <script>
 import Vue from "vue";
+import AgoraRTC from "agora-rtc-sdk-ng";
+AgoraRTC.setLogLevel(4);
 
 export default {
   data() {
@@ -77,6 +70,7 @@ export default {
         //   Vue.$toast.error(error.message || error);
         console.log(error || error.message);
       },
+      videoList: [],
       localVolumeLevel: 0,
       uidd: null,
       mute: false,
@@ -198,9 +192,10 @@ export default {
 }
 
 .videocall__box {
-  min-height: 80vh;
+  height: 85vh;
   position: sticky;
   top: 70px;
+  overflow-y: scroll;
 }
 
 .default-agora-rtc-video-sender-player > div {
@@ -220,8 +215,8 @@ export default {
 }
 .default-agora-rtc-video-receiver-player {
   position: relative;
-  width: 100px !important;
-  height: 100px !important;
+  width: 95px !important;
+  height: 95px !important;
   box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
 
   /* background: black; */
