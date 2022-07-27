@@ -48,16 +48,31 @@
         ></div>
 
         <div class="ban">
-          <mp-button
+          <div
             v-if="user_id === uid"
-            :class="microphoneClass"
-            @click="handleMute"
-          />
-          <video-button
-            v-if="user_id === uid"
-            :class="cameraClass"
-            @click="handleCamera"
-          />
+            class="d-flex justify-content-center gap-1 align-items-center"
+          >
+            <button id="icon" @click="handleMute">
+              <div v-show="mute">
+                <span class="iconify" data-icon="fa:microphone-slash"></span>
+              </div>
+              <div v-show="!mute">
+                <span class="iconify" data-icon="fa:microphone"></span>
+              </div>
+            </button>
+
+            <button id="icon" @click="handleCamera">
+              <div v-show="cameraIsClosed">
+                <span
+                  class="iconify"
+                  data-icon="carbon:video-off-filled"
+                ></span>
+              </div>
+              <div v-show="!cameraIsClosed">
+                <span class="iconify" data-icon="carbon:video-filled"></span>
+              </div>
+            </button>
+          </div>
           <voice-dot
             :level="
               audioStatusObj[user_id || uid] &&
@@ -115,10 +130,10 @@
 
 <script>
 import Vue from "vue";
-import MpButton from "./buttons/mp-button";
+// import MpButton from "./buttons/mp-button";
 // import CloseButton from "./buttons/close-button";
 // import OnCallButton from "./buttons/on-call-button";
-import VideoButton from "./buttons/video-button";
+// import VideoButton from "./buttons/video-button";
 import VoiceDot from "./voice-dot/main";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
@@ -128,45 +143,43 @@ import PinButton from "./pin-button/main";
 export default {
   name: "MeetComponent",
   components: {
-    MpButton,
+    // MpButton,
     // CloseButton,
     // OnCallButton,
-    VideoButton,
+    // VideoButton,
     VoiceDot,
     AvatarAudio,
     PinButton,
   },
-  props: ["channel", "uid", "appid", "token", "preMute", "preCameraOff"],
-  // props: {
-  //   channel: {
-  //     type: [String],
-  //   },
-  //   uid: {
-  //     type: [String],
-  //   },
-  //   appid: {
-  //     type: [String],
-  //   },
-  //   token: {
-  //     type: [String],
-  //   },
-  //   preMute: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
-  //   preCameraOff: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
-  // },
+  props: {
+    channel: {
+      type: [String],
+    },
+    uid: {
+      type: [String],
+    },
+    appid: {
+      type: [String],
+    },
+    token: {
+      type: [String],
+    },
+    preMute: {
+      type: Boolean,
+      default: false,
+    },
+    preCameraOff: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       mute: false,
       handleError: (error) => {
-        Vue.$toast.error(error.message || error);
-        // this.$message.error(error.message || error);
+        // Vue.$toast.error(error.message || error);
+        console.log(error || error.message);
       },
-      // uid: this.uidd,
       // uid: null,
       cameraIsClosed: false,
       inMeeting: false,
@@ -199,13 +212,11 @@ export default {
     users() {
       let result = [...this.remoteUsers];
       result.unshift(this.uid ? this.uid + "(you)" : "you");
-      // this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
     },
     userList() {
       let result = [...this.remoteUsers];
       this.uid && result.unshift(this.uid);
-      // this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
     },
     unpinedUserIdList() {
@@ -284,19 +295,13 @@ export default {
     handleJoinSuccess() {
       this.inMeeting = true;
       // this.uid = uid;
-      Vue.$toast.success("Join the meeting successfully");
+      Vue.$toast.success(`${this.uid} has the joined the meeting.`);
     },
-    // handleJoinSuccess(uid) {
-    //   this.inMeeting = true;
-    //   // this.uid = uid;
-    //   Vue.$toast.success("Join the meeting successfully");
-    // },
     handleClientCreated() {
       window._agMeet = this;
       window._client = this.$refs.ar.getClient();
       window._AgoraRTC = this.$refs.ar.getAgoraRtc();
       window._sClient = this.$refs?.screenAr?.getClient();
-      // client.setStreamFallbackOption()
     },
     handleMute() {
       this.mute = !this.mute;
@@ -322,7 +327,8 @@ export default {
       this.$refs.ar.leave().then(() => {
         this.inMeeting = false;
         this.remoteUsers = [];
-        // this.uid = null;
+        // eslint-disable-next-line vue/no-mutating-props
+        this.uid = null;
         Vue.$toast.success("Left the meeting successfully");
         this.$emit("leave-meeting");
       });
@@ -332,8 +338,7 @@ export default {
       Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
     },
     handleUserJoin(user) {
-      Vue.$toast.warning(`${user.uid} join meeting`);
-
+      Vue.$toast.success(`${user.uid} has joined the meeting`);
       // weak net fallback
       this.$refs.ar.getClient().setStreamFallbackOption(user.uid, 2);
 
@@ -347,14 +352,12 @@ export default {
       this.handleCheckRemoteUserAudioMuteStatus();
     },
     handleUserPublished(user, mediaType) {
-      // console.log("user published ", mediaType, user.uid);
-
       if (mediaType === "audio") {
         this.handleGetRemoteVolumeLevelList();
       }
     },
-    handleUserLeft(user, reason) {
-      Vue.$toast.success(`${user.uid} left meeting because ${reason}`);
+    handleUserLeft(user) {
+      Vue.$toast.success(`${user.uid} left meeting`);
       this.remoteUsers = this.$refs.ar
         .getRemoteUsers()
         .filter(
@@ -469,9 +472,33 @@ export default {
 };
 </script>
 
-<style lang="stylus">
-video.agora_video_player
-  object-fit: cover !important
+<style lang="css">
+video.agora_video_player {
+  object-fit: cover !important;
+}
+
+.iconify {
+  height: 0.95rem;
+  width: 0.95rem;
+}
+
+#icon:active {
+  /* background-color: #dde8ff; */
+  color: #003bb3;
+}
+#icon {
+  border: none;
+  display: flex;
+  padding: 1.5px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+}
+#icon:hover {
+  /* background-color: #003bb3; */
+  color: #003bb3;
+}
 </style>
 
 <style scoped lang="stylus">
