@@ -100,8 +100,14 @@ export default {
     },
     async generate() {
       try {
+        const name_id = this.name
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
         const response = await axios.get(
-          `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${this.name}`
+          `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${name_id}`
         );
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("appid", response.data.appid);
