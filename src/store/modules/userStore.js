@@ -10,12 +10,12 @@ const getters = {};
 
 // actions
 const actions = {
-  async login({ commit }, payload) {
+  async login({ commit }) {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${payload}`,
+          Authorization: `Bearer ${process.env.VUE_APP_TOKEN}`,
         },
       };
 

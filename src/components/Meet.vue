@@ -131,23 +131,15 @@
 
 <script>
 import Vue from "vue";
-// import MpButton from "./buttons/mp-button";
-// import CloseButton from "./buttons/close-button";
-// import OnCallButton from "./buttons/on-call-button";
-// import VideoButton from "./buttons/video-button";
 import VoiceDot from "./voice-dot/VoiceDot.vue";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
-// import AgoraRTC from "agora-rtc-sdk-ng";
-// AgoraRTC.setLogLevel(4);
+import AgoraRTC from "agora-rtc-sdk-ng";
+AgoraRTC.setLogLevel(4);
 
 export default {
   name: "MeetComponent",
   components: {
-    // MpButton,
-    // CloseButton,
-    // OnCallButton,
-    // VideoButton,
     VoiceDot,
     AvatarAudio,
     PinButton,

@@ -24,6 +24,7 @@ Vue.use(VueToast, {
 Vue.use(AgoraRtcVue);
 Vue.use(Vuex);
 Vue.use(router);
+Vue.use(store);
 
 new Vue({
   router,
