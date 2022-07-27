@@ -1,11 +1,12 @@
 <template>
-  <div class="meet">
-    <div class="local_player">
+  <div class="videocall__box">
+    <div class="meet">
       <agora
         ref="ar"
         :channel="channel"
         :appid="appid"
         :token="token"
+        :uid="uid"
         :autoStart="true"
         :errorHandler="handleError"
         @user-joined="handleUserJoin"
@@ -30,54 +31,32 @@
           @video-close="handleVideoClose"
         ></agora-video-sender>
         <agora-video-receiver
+          ref="videoReceiver"
           customizationPlayer
           @video-ready="handleRemoteVideoReady"
           :refuse="refuseList"
         ></agora-video-receiver>
       </agora>
-      <agora
-        v-if="openScreenSharing"
-        :channel="channel"
-        :appid="appid"
-        :token="token"
-        :uid="shareScreenUID"
-        ref="screenAr"
-      >
-        <agora-video-sender
-          customizationPlayer
-          type="screen"
-          @video-ready="handleScreenVideoReady"
-          @video-close="handleScreenVideoClose"
-          @video-create-failed="handleScreenVideoFailed"
-        ></agora-video-sender>
-      </agora>
     </div>
-    <div
-      class="player"
-      :class="{
-        'screen-share-player': youAreShareScreening || otherIsShareScreening,
-      }"
-    >
-      <div
-        class="user-vision"
-        :class="{
-          'screen-share-vision': user_id === shareScreenUID,
-          'screen-share-vision-pined':
-            user_id === shareScreenUID && user_id === pinedUid,
-        }"
-        v-for="user_id in userIdList"
-        :key="user_id"
-      >
+    <div class="player">
+      <div class="user-vision" v-for="user_id in userIdList" :key="user_id">
         <div
           v-if="playList.find((e) => e.uid === user_id)"
           v-player="playList.find((e) => e.uid === user_id)"
           class="player-vision"
           v-show="!streamFallbackList.includes(user_id)"
         ></div>
+
         <div class="ban">
-          <pin-button
-            :couldHover="false"
-            v-if="pined && user_id === pinedUid"
+          <mp-button
+            v-if="user_id === uid"
+            :class="microphoneClass"
+            @click="handleMute"
+          />
+          <video-button
+            v-if="user_id === uid"
+            :class="cameraClass"
+            @click="handleCamera"
           />
           <voice-dot
             :level="
@@ -96,6 +75,7 @@
             }}<span v-if="user_id === uid && inMeeting"> ( you ) </span>
           </p>
         </div>
+
         <avatar-audio
           avatar="../assets/yonghu.svg"
           :level="
@@ -124,122 +104,70 @@
         </div>
       </div>
     </div>
-    <div class="notify">
-      <div class="remote-user" @click="handleExpandUserList">
-        User: {{ users.length }}
-      </div>
-      <div class="local-user">
-        <div class="local-camera-player">
-          <voice-dot
-            :mute="this.mute"
-            :level="this.localVolumeLevel"
-            class="voice-dot-local"
-          />
-          <video
-            v-show="!cameraIsClosed"
-            autoplay
-            mute
-            ref="localCameraPlayer"
-          ></video>
-          <img v-show="cameraIsClosed" src="../assets/yonghu.svg" alt="" />
-        </div>
-      </div>
-    </div>
-    <div class="user-list" v-show="showExpandUserList">
-      <p @click="handleCustom">All users in the meeting :</p>
-      <ul>
-        <li v-for="(item, index) in users" :key="index">
-          <voice-dot
-            class="audio-dot-local"
-            :level="
-              audioStatusObj[item.uid || uid] &&
-              audioStatusObj[item.uid || uid].level
-                ? audioStatusObj[item.uid || uid].level
-                : 0
-            "
-            :mute="
-              audioStatusObj[item.uid || uid] &&
-              audioStatusObj[item.uid || uid].mute !== false
-            "
-          />
-          <pin-button
-            class="pin-button-local"
-            :pined="
-              pined && (item.uid ? pinedUid === item.uid : pinedUid === uid)
-            "
-            @click="handlePinUser(item.uid || uid)"
-          />
-          {{ item.uid || item }}
-        </li>
-      </ul>
-    </div>
-    <div class="banner">
-      <div class="test-button" @click="handleOpenNewPage">
-        (test) open new page
-      </div>
-      <mp-button :class="microphoneClass" @click="handleMute" />
+    <!-- <div class="banner">
       <on-call-button v-if="!inMeeting" @click="handleCall" />
       <close-button v-if="inMeeting" @click="handleLeave" />
+      <mp-button :class="microphoneClass" @click="handleMute" />
       <video-button :class="cameraClass" @click="handleCamera" />
-      <div class="share-screen-button" @click="handleShareScreen">
-        {{
-          youAreShareScreening
-            ? "You are Sharing"
-            : otherIsShareScreening
-            ? "Other is Sharing"
-            : "Share Screen"
-        }}
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import MpButton from "./buttons/mp-button";
-import CloseButton from "./buttons/close-button";
-import OnCallButton from "./buttons/on-call-button";
+// import CloseButton from "./buttons/close-button";
+// import OnCallButton from "./buttons/on-call-button";
 import VideoButton from "./buttons/video-button";
 import VoiceDot from "./voice-dot/main";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
+// import AgoraRTC from "agora-rtc-sdk-ng";
+// AgoraRTC.setLogLevel(4);
 
 export default {
   name: "MeetComponent",
   components: {
     MpButton,
-    CloseButton,
-    OnCallButton,
+    // CloseButton,
+    // OnCallButton,
     VideoButton,
     VoiceDot,
     AvatarAudio,
     PinButton,
   },
-  props: {
-    channel: {
-      type: [String, null],
-    },
-    appid: {
-      type: [String, null],
-    },
-    token: {
-      type: [String, null],
-    },
-    preMute: {
-      type: Boolean,
-      default: false,
-    },
-    preCameraOff: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: ["channel", "uid", "appid", "token", "preMute", "preCameraOff"],
+  // props: {
+  //   channel: {
+  //     type: [String],
+  //   },
+  //   uid: {
+  //     type: [String],
+  //   },
+  //   appid: {
+  //     type: [String],
+  //   },
+  //   token: {
+  //     type: [String],
+  //   },
+  //   preMute: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  //   preCameraOff: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
   data() {
     return {
       mute: false,
       handleError: (error) => {
-        this.$message.error(error.message || error);
+        Vue.$toast.error(error.message || error);
+        // this.$message.error(error.message || error);
       },
-      uid: null,
+      // uid: this.uidd,
+      // uid: null,
       cameraIsClosed: false,
       inMeeting: false,
       remoteUsers: [],
@@ -271,19 +199,18 @@ export default {
     users() {
       let result = [...this.remoteUsers];
       result.unshift(this.uid ? this.uid + "(you)" : "you");
-      this.youAreShareScreening && result.unshift(this.shareScreenUID);
+      // this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
     },
     userList() {
       let result = [...this.remoteUsers];
       this.uid && result.unshift(this.uid);
-      this.youAreShareScreening && result.unshift(this.shareScreenUID);
+      // this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
     },
     unpinedUserIdList() {
       let result = [...this.remoteUsers.map((user) => user.uid)];
       this.uid && result.unshift(this.uid);
-      this.youAreShareScreening && result.unshift(this.shareScreenUID);
       return result;
     },
     userIdList() {
@@ -341,7 +268,7 @@ export default {
   watch: {
     cameraIsClosed(newV) {
       if (!newV && this.$refs.videoSender && this.$refs.localCameraPlayer) {
-        this.playLocalVideoOnTopBanner();
+        // this.playLocalVideoOnTopBanner();
       }
     },
   },
@@ -350,18 +277,20 @@ export default {
     this.cameraIsClosed = this.preCameraOff;
   },
   methods: {
-    handleOpenNewPage() {
-      window.open(window.location.href);
-    },
     handleCustom() {
       const tracks = this.$refs.ar.getLocalTracks();
       console.log(tracks);
     },
-    handleJoinSuccess(uid) {
+    handleJoinSuccess() {
       this.inMeeting = true;
-      this.uid = uid;
-      this.$message.success("Join the meeting successfully");
+      // this.uid = uid;
+      Vue.$toast.success("Join the meeting successfully");
     },
+    // handleJoinSuccess(uid) {
+    //   this.inMeeting = true;
+    //   // this.uid = uid;
+    //   Vue.$toast.success("Join the meeting successfully");
+    // },
     handleClientCreated() {
       window._agMeet = this;
       window._client = this.$refs.ar.getClient();
@@ -371,44 +300,39 @@ export default {
     },
     handleMute() {
       this.mute = !this.mute;
-      this.$message(`Microphone Turned ${this.mute ? "OFF" : "ON"}`);
-    },
-    playLocalVideoOnTopBanner() {
-      const videoTrack = this.$refs.videoSender
-        .getTrack()
-        .getMediaStreamTrack();
-      this.$refs.localCameraPlayer.srcObject = new MediaStream([videoTrack]);
+      Vue.$toast.warning(`Microphone Turned ${this.mute ? "OFF" : "ON"}`);
     },
     handleCall() {
       if (this.inMeeting) {
-        this.$message.error("You are already in the meeting");
+        Vue.$toast.error("You are already in the meeting");
         return;
       }
       this.$refs.ar.start().then(({ result, message }) => {
         if (!result) {
-          this.$message.error("join channel error", message);
+          Vue.$toast.error("join channel error", message);
         }
       });
     },
     handleLeave() {
       if (!this.inMeeting) {
-        this.$message.error("You have not joined any meetings");
+        Vue.$toast.error("You have not joined any meetings");
         return;
       }
+
       this.$refs.ar.leave().then(() => {
         this.inMeeting = false;
         this.remoteUsers = [];
-        this.uid = null;
-        this.$message.success("Left the meeting successfully");
+        // this.uid = null;
+        Vue.$toast.success("Left the meeting successfully");
         this.$emit("leave-meeting");
       });
     },
     handleCamera() {
       this.cameraIsClosed = !this.cameraIsClosed;
-      this.$message(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
+      Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
     },
     handleUserJoin(user) {
-      this.$message(`${user.uid} join meeting`);
+      Vue.$toast.warning(`${user.uid} join meeting`);
 
       // weak net fallback
       this.$refs.ar.getClient().setStreamFallbackOption(user.uid, 2);
@@ -423,14 +347,14 @@ export default {
       this.handleCheckRemoteUserAudioMuteStatus();
     },
     handleUserPublished(user, mediaType) {
-      console.log("user published ", mediaType, user.uid);
+      // console.log("user published ", mediaType, user.uid);
 
       if (mediaType === "audio") {
         this.handleGetRemoteVolumeLevelList();
       }
     },
     handleUserLeft(user, reason) {
-      this.$message(`${user.uid} left meeting because ${reason}`);
+      Vue.$toast.success(`${user.uid} left meeting because ${reason}`);
       this.remoteUsers = this.$refs.ar
         .getRemoteUsers()
         .filter(
@@ -448,7 +372,6 @@ export default {
     handleVideoReady(localVideo, info) {
       console.log("video-ready trigger:", info);
       this.localDirective = localVideo;
-      this.playLocalVideoOnTopBanner();
     },
     handleScreenVideoReady(screenVideo) {
       this.youAreShareScreening = true;
@@ -481,7 +404,7 @@ export default {
           }
           id = window.requestAnimationFrame(callback);
         } catch (e) {
-          console.error(e);
+          // console.error(e);
         }
       };
       id = window.requestAnimationFrame(callback);
@@ -525,24 +448,21 @@ export default {
     handleShareScreen() {
       if (!this.youAreShareScreening) {
         if (this.otherIsShareScreening) {
-          this.$message.warning(`other is sharing, and you will replace him.`);
+          Vue.$toast.warning(`other is sharing, and you will replace him.`);
         }
       } else {
-        this.$message(`you will quit screen sharing.`);
+        Vue.$toast.success(`you will quit screen sharing.`);
       }
       this.openScreenSharing = !this.openScreenSharing;
     },
     handleStreamFallback(uid, type) {
       const list = this.streamFallbackList;
-      console.log(
-        `[Agora Web Multi-party Call Demo.Vue] : stream fallback: uid ${uid}, type: ${type}`
-      );
       if (type === "recover") {
         this.streamFallbackList = list.filter((e) => e !== uid);
       } else if (type === "fallback") {
         this.streamFallbackList = [...new Set([...list, uid])];
       } else {
-        this.$message.error("stream fallback type error");
+        Vue.$toast.error("stream fallback type error");
       }
     },
   },
@@ -551,9 +471,9 @@ export default {
 
 <style lang="stylus">
 video.agora_video_player
-  object-fit: contain !important
+  object-fit: cover !important
 </style>
 
-<style scoped lang="styl">
+<style scoped lang="stylus">
 @import "../styles/meet/index.styl"
 </style>

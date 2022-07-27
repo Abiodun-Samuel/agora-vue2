@@ -25,31 +25,31 @@ export default {
   props: {
     level: {
       type: Number,
-      default: 0
+      default: 0,
     },
     mute: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cameraOff: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       borderWidth: 0,
       showRing: false,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   },
   computed: {
     computedStyle() {
       return {
         "border-width": !this.mute ? this.borderWidth + "px" : 0,
-        "z-index": this.cameraOff ? 1 : -1
+        "z-index": this.cameraOff ? 1 : -1,
       };
-    }
+    },
   },
   watch: {
     level: {
@@ -60,14 +60,14 @@ export default {
           MAX_WIDTH * level +
           level *
             (level < MAGNIFY_LEVEL_1
-              ? 80
+              ? 50
               : level < MAGNIFY_LEVEL_2
-              ? 40
+              ? 30
               : level < MAGNIFY_LEVEL_3
-              ? 40
+              ? 30
               : level < MAGNIFY_LEVEL_4
-              ? 40
-              : 20);
+              ? 30
+              : 10);
         this.borderWidth = Math.round(width);
         if (
           newV > MAGNIFY_LEVEL_0 &&
@@ -76,7 +76,7 @@ export default {
         ) {
           this.showRing = true;
         }
-      }
+      },
     },
     showRing(newV) {
       if (newV) {
@@ -84,8 +84,8 @@ export default {
           this.showRing = false;
         }, RING_INTERVAL);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -97,11 +97,11 @@ $main_interval=0.6s
   left: 50%
   top: 50%
   transform translate(-50%,-50%)
-  width "min(160px, 30%)" % null
-  padding-bottom "min(160px, 30%)" % null
+  width "min(50px, 10%)" % null
+  padding-bottom "min(50px, 10%)" % null
   background-color: #fff;
   background-image url("../../assets/yonghu.svg");
-  background-size 70%
+  background-size 50%
   background-repeat no-repeat
   background-position center
   border-radius 50%
@@ -118,15 +118,15 @@ $main_interval=0.6s
   @keyframes wave{
     0%{
       opacity: 1
-      transform scale(0.8) translate(-50%,-50%)
+      transform scale(0.4) translate(-50%,-50%)
     }
     50%{
       opacity: 0
-      transform scale(2) translate(-50%,-50%)
+      transform scale(1) translate(-50%,-50%)
     }
     100%{
       opacity: 0
-      transform scale(0.8) translate(-50%,-50%)
+      transform scale(0.4) translate(-50%,-50%)
     }
   }
 
@@ -135,12 +135,12 @@ $main_interval=0.6s
     display block
     content ""
     background-color: transparent;
-    border 1px solid darkgray;
+    // border 1px solid darkgray;
     box-sizing border-box;
     //width: $main_size;
     //height $main_size;
-    width min(160px, 100%)
-    padding-bottom min(160px, 100%)
+    width min(50px, 100%)
+    padding-bottom min(50px, 100%)
     position: absolute;
     top: 50%
     left 50%

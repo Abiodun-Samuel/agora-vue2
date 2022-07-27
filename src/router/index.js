@@ -17,10 +17,15 @@ const routes = [
     component: HomePage,
   },
   {
-    path: "/notary_session/:appid/:channel/:token/:uid",
+    path: "/notary_session",
     name: "Notary",
     component: NotarySession,
   },
+  // {
+  //   path: "/notary_session/:appid/:channel/:token/:uid",
+  //   name: "Notary",
+  //   component: NotarySession,
+  // },
   // {
   //   path: "/about",
   //   name: "about",

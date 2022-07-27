@@ -32,20 +32,20 @@ export default {
   width: 30px
   height: 30px
   cursor: pointer;
-  background-image: url("../../assets/pin_img.svg");
+  background-image: url("../../assets/expand.svg");
   background-repeat no-repeat
   background-size 70%;
   background-position center
   border-radius 50%
   &.pined{
-    background-image: url("../../assets/pinoff.svg");
+    background-image: url("../../assets/reduce.svg");
   }
 }
 .pin-button-could-hover{
   &.pined{
     &:hover{
       &:after{
-        content: "Cancel Pin";
+        // content: "Reduce";
         width: 8em
       }
     }
@@ -58,7 +58,7 @@ export default {
       left: 50%
       transform translateX(-50%)
       display: block
-      content: "Pin";
+      // content: "Enlarge";
       background-color: rgba(30,30,30,0.8);
       color: white
       padding: 2px;

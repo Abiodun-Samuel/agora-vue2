@@ -1,12 +1,31 @@
 <template>
-  <div class="container mt-5 pt-5">
-    <div class="my-2">
-      <a
+  <div class="container mt-5 pt-5" style="height: 90vh">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-lg-6">
+        <input class="form-control" type="text" v-model="name" />
+        <button
+          v-if="!join"
+          @click="generate"
+          class="btn btn-primary mr-2 my-2 btn-block"
+        >
+          Generate
+        </button>
+        <br />
+        <button
+          @click="enter"
+          v-if="join"
+          class="btn btn-success mr-2 my-2 btn-block"
+        >
+          Join
+        </button>
+      </div>
+      <!-- <a
         target="_blank"
         class="btn btn-primary my-2 me-2"
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IADJ1TPHpYd882cOZMuHfEXhapt1Imf8avqJv3RxtMNtOAx+f9hp0D9dIgD9QV7GgWfWYgQAAQBBL9ZiAgBBL9ZiAwBBL9ZiBABBL9Zi/shaffi"
         >shaffi</a
       >
+
       <a
         target="_blank"
         class="btn btn-primary m-2"
@@ -33,9 +52,15 @@
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IACED6LnUeZwYfkERp3tqwpb8o6Vo1Fvul62tnITydU2Zgx+f9jHpyatIgD9QV7GaG3WYgQAAQAoNdZiAgAoNdZiAwAoNdZiBAAoNdZi/unknown"
         >extra</a
       >
+      <a
+        target="_blank"
+        class="btn btn-primary m-2"
+        href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/test/0063a7155f8a86345d7ad31066ac2a8ed48IAAb8LNQUtvThrQC7zvnTlh3qVR75vqP4nlTCUwdngBqMgx+f9gYSBPmIgAArzYmrwPhYgQAAQBvy+BiAgBvy+BiAwBvy+BiBABvy+Bi/sam"
+        >sam</a
+      > -->
     </div>
 
-    <div class="mt-3">
+    <!-- <div class="mt-3">
       <p>Another Room</p>
       <a
         target="_blank"
@@ -50,74 +75,45 @@
         href="/notary_session/3a7155f8a86345d7ad31066ac2a8ed48/testtwo/0063a7155f8a86345d7ad31066ac2a8ed48IAAkqJfNzAai5lLmHAyleWdZLVeHv2hCnaAOfC2zPyXE3g9L1mnHpyatIgD9QV7GOm3WYgQAAQD6NNZiAgD6NNZiAwD6NNZiBAD6NNZi/unknown"
         >extra</a
       >
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-// import axios from "axios";
-import Vue from "vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      disabled: true,
-      cameraIsClosed: false,
-      uidd: null,
+      join: false,
+      name: null,
     };
   },
 
-  methods: {
-    // async generate() {
-    //   let response;
-    //   try {
-    //     const config = {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     };
+  computed: {},
 
-    //     response = await axios.get(
-    //       `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${this.name}`,
-    //       config
-    //     );
-    //     if (response.data.token.includes("/")) {
-    //       this.generate();
-    //     }
-    //     console.log(response.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    //   return response;
-    // },
-    handleJoinSuccess(uid) {
-      this.inMeeting = true;
-      this.uidd = uid;
-      Vue.$toast.success("Join the meeting successfully");
+  methods: {
+    enter() {
+      window.open("http://localhost:8081/notary_session", "_blank");
+      this.join = false;
+      // this.$router.push("/notary_session");
     },
-    handleMute() {
-      this.mute = !this.mute;
-      Vue.$toast.warning(`Microphone Turned ${this.mute ? "OFF" : "ON"}`);
+    async generate() {
+      try {
+        const response = await axios.get(
+          `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${this.name}`
+        );
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("appid", response.data.appid);
+        localStorage.setItem("uid", response.data.uid);
+        localStorage.setItem("channel", response.data.channelName);
+        setTimeout(() => {
+          this.join = true;
+        }, 500);
+      } catch (error) {
+        console.log(error);
+      }
     },
-    handleCamera() {
-      this.cameraIsClosed = !this.cameraIsClosed;
-      Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
-    },
-    // microphoneClass() {
-    //   return this.mute ? "mp-mute" : "mp-normal";
-    // },
-    // cameraClass() {
-    //   return this.cameraIsClosed ? "video-mute" : "video-normal";
-    // },
   },
-  // created() {
-  //   // :appid/:channel/:token/:uid -
-  //   const url = this.$route.params.agora.split("&&&");
-  //   console.log(url);
-  //   this.appid = url[0];
-  //   this.channel = url[1];
-  //   this.token = url[2];
-  //   this.uid = url[3];
-  // },
 };
 </script>

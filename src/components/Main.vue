@@ -14,7 +14,7 @@
       <div class="col-lg-7 col-md-6 my-2">
         <div class="main">
           <agora
-            channel="channel"
+            :channel="channel"
             :autoStart="false"
             :errorHandler="
               (error) => {
