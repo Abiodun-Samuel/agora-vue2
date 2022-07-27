@@ -11,13 +11,13 @@
           Generate
         </button>
         <br />
-        <button
-          @click="enter"
+
+        <router-link
           v-if="join"
-          class="btn btn-success mr-2 my-2 btn-block"
+          :to="{ path: '/notary_session' }"
+          class="btn btn-success"
+          >Join</router-link
         >
-          Join
-        </button>
       </div>
       <!-- <a
         target="_blank"
