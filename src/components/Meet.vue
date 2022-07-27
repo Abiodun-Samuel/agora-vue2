@@ -73,7 +73,8 @@
               </div>
             </button>
           </div>
-          <voice-dot
+          <VoiceDot
+            v-if="user_id !== uid"
             :level="
               audioStatusObj[user_id || uid] &&
               audioStatusObj[user_id || uid].level
@@ -134,7 +135,7 @@ import Vue from "vue";
 // import CloseButton from "./buttons/close-button";
 // import OnCallButton from "./buttons/on-call-button";
 // import VideoButton from "./buttons/video-button";
-import VoiceDot from "./voice-dot/main";
+import VoiceDot from "./voice-dot/VoiceDot.vue";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
 // import AgoraRTC from "agora-rtc-sdk-ng";
@@ -473,6 +474,19 @@ export default {
 </script>
 
 <style lang="css">
+.videocall__box {
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+  padding: 8px;
+}
+
+.videocall__box {
+  height: 85vh;
+  position: sticky;
+  top: 70px;
+  overflow-y: scroll;
+}
 video.agora_video_player {
   object-fit: cover !important;
 }
