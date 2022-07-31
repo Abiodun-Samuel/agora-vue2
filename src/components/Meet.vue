@@ -85,7 +85,7 @@
         ></div>
 
         <div class="ban">
-          <div
+          <!-- <div
             v-if="user_id === uid"
             class="d-flex justify-content-center gap-1 align-items-center"
           >
@@ -109,7 +109,7 @@
                 <span class="iconify" data-icon="carbon:video-filled"></span>
               </div>
             </button>
-          </div>
+          </div> -->
           <VoiceDot
             v-if="user_id !== uid"
             :level="
@@ -124,8 +124,10 @@
             "
           />
           <p>
-            {{ user_id || "you"
-            }}<span v-if="user_id === uid && inMeeting"> ( you ) </span>
+            {{
+              user_id.length > 15 ? user_id.substring(0, 15) + "..." : user_id
+            }}
+            <!-- <span v-if="user_id === uid && inMeeting"> ( you ) </span> -->
           </p>
         </div>
 
