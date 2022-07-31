@@ -25,11 +25,13 @@
         <agora-audio-receiver ref="audioReceiver" :refuse="refuseList" />
         <agora-video-sender
           :cameraOff="cameraIsClosed"
-          customizationPlayer
           ref="videoSender"
-          @video-ready="handleVideoReady"
+        
           @video-close="handleVideoClose"
-        ></agora-video-sender>
+        >
+          <!-- @video-ready="handleVideoReady" -->
+          <div class="sender" style="width: 400px; height: 300px"></div>
+        </agora-video-sender>
         <agora-video-receiver
           ref="videoReceiver"
           customizationPlayer
