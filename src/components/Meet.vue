@@ -26,11 +26,10 @@
         <agora-video-sender
           :cameraOff="cameraIsClosed"
           ref="videoSender"
-        
           @video-close="handleVideoClose"
         >
           <!-- @video-ready="handleVideoReady" -->
-          <div class="sender" style="width: 400px; height: 300px"></div>
+          <div class="sender shadow-lg"></div>
         </agora-video-sender>
         <agora-video-receiver
           ref="videoReceiver"
@@ -39,6 +38,42 @@
           :refuse="refuseList"
         ></agora-video-receiver>
       </agora>
+
+      <!-- for local user   -->
+      <div
+        class="d-flex justify-content-between align-items-center sender__icons"
+      >
+        <VoiceDot
+          :level="
+            audioStatusObj[uid] && audioStatusObj[uid].level
+              ? audioStatusObj[uid].level
+              : 0
+          "
+          :mute="audioStatusObj[uid] && audioStatusObj[uid].mute !== false"
+        />
+        <div class="d-flex justify-content-end align-items-center gap-1">
+          <button id="icon" @click="handleMute">
+            <div v-show="mute">
+              <span class="iconify" data-icon="fa:microphone-slash"></span>
+            </div>
+            <div v-show="!mute">
+              <span class="iconify" data-icon="fa:microphone"></span>
+            </div>
+          </button>
+
+          <button id="icon" @click="handleCamera">
+            <div v-show="cameraIsClosed">
+              <span class="iconify" data-icon="carbon:video-off-filled"></span>
+            </div>
+            <div v-show="!cameraIsClosed">
+              <span class="iconify" data-icon="carbon:video-filled"></span>
+            </div>
+          </button>
+        </div>
+        <div class="text-left">
+          <span class="text-primary small"> {{ uid }} </span>
+        </div>
+      </div>
     </div>
     <div class="player">
       <div class="user-vision" v-for="user_id in userIdList" :key="user_id">
@@ -172,8 +207,8 @@ export default {
     return {
       mute: false,
       handleError: (error) => {
-        // Vue.$toast.error(error.message || error);
-        console.log(error || error.message);
+        // Vue.$toast.error(e);
+        console.log(error.message || error);
       },
       // uid: null,
       cameraIsClosed: false,
