@@ -214,7 +214,7 @@ export default {
     },
     unpinedUserIdList() {
       let result = [...this.remoteUsers.map((user) => user.uid)];
-      this.uid && result.unshift(this.uid);
+      // this.uid && result.unshift(this.uid);
       return result;
     },
     userIdList() {
@@ -225,8 +225,8 @@ export default {
     },
     playList() {
       let result = [...this.remoteDirectiveList];
-      this.localDirective && result.unshift(this.localDirective);
-      this.localScreenDirective && result.unshift(this.localScreenDirective);
+      // this.localDirective && result.unshift(this.localDirective);
+      // this.localScreenDirective && result.unshift(this.localScreenDirective);
       return result;
     },
     remoteAudioStatusObj() {

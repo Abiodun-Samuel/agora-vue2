@@ -10,7 +10,6 @@ import documentStore from "./modules/documentStore";
 
 Vue.use(Vuex);
 // const debug = process.env.NODE_ENV !== "production";
-
 // const dataState = createPersistedState({
 //   paths: ["userStore.userDetails"],
 //   storage: {

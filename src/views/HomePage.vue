@@ -17,11 +17,13 @@
         </button>
       </div>
     </div>
+    {{ $route.query.user }}
   </div>
 </template>
 
 <script>
 import axios from "axios";
+// import { mapState } from "vuex";
 
 export default {
   data() {
@@ -30,7 +32,17 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    // ...mapState("documentStore", {
+    //   uploadedPassport: (state) => state.passports,
+    // }),
+    // ...mapState("notarySessionStore", {
+    //   notary: (state) => state.notary,
+    // }),
+  },
+  mounted() {
+    this.$store.dispatch("documentStore/getPassports");
+  },
 
   methods: {
     async generate() {

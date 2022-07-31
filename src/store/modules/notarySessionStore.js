@@ -1,7 +1,9 @@
 // import axios from "axios";
 // import Vue from "vue";
 
-const state = () => ({});
+const state = () => ({
+  notary: "abiodun",
+});
 
 // getters
 const getters = {};
