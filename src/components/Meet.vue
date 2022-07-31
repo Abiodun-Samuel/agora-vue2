@@ -27,8 +27,8 @@
           :cameraOff="cameraIsClosed"
           ref="videoSender"
           @video-close="handleVideoClose"
+          @video-ready="handleVideoReady"
         >
-          <!-- @video-ready="handleVideoReady" -->
           <div class="sender shadow-lg"></div>
         </agora-video-sender>
         <agora-video-receiver
