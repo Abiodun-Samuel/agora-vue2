@@ -204,12 +204,12 @@ export default {
     },
     users() {
       let result = [...this.remoteUsers];
-      result.unshift(this.uid ? this.uid + "(you)" : "you");
+      // result.unshift(this.uid ? this.uid + "(you)" : "you");
       return result;
     },
     userList() {
       let result = [...this.remoteUsers];
-      this.uid && result.unshift(this.uid);
+      // this.uid && result.unshift(this.uid);
       return result;
     },
     unpinedUserIdList() {
