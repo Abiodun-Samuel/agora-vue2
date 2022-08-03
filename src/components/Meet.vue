@@ -49,8 +49,8 @@
               ? audioStatusObj[uid].level
               : 0
           "
-          :mute="audioStatusObj[uid] && audioStatusObj[uid].mute !== false"
         />
+
         <div class="d-flex justify-content-end align-items-center gap-1">
           <button id="icon" @click="handleMute">
             <div v-show="mute">
@@ -71,45 +71,32 @@
           </button>
         </div>
         <div class="text-left">
-          <span class="text-primary small"> {{ uid }} </span>
+          <span class="text-primary small">
+            {{
+              uid.length > 15
+                ? displayName(uid).substring(0, 15) + "..."
+                : displayName(uid)
+            }}
+          </span>
         </div>
       </div>
     </div>
-    <div class="player">
-      <div class="user-vision" v-for="user_id in userIdList" :key="user_id">
+
+    <div data-aos="zoom" :class="pined ? 'player-pin' : 'player'">
+      <div
+        data-aos="zoom"
+        :class="pined ? 'user-vision-pin' : 'user-vision'"
+        v-for="user_id in userIdList"
+        :key="user_id"
+      >
         <div
           v-if="playList.find((e) => e.uid === user_id)"
           v-player="playList.find((e) => e.uid === user_id)"
-          class="player-vision"
+          :class="pined ? 'player-vision-pin' : 'player-vision'"
           v-show="!streamFallbackList.includes(user_id)"
         ></div>
 
         <div class="ban">
-          <!-- <div
-            v-if="user_id === uid"
-            class="d-flex justify-content-center gap-1 align-items-center"
-          >
-            <button id="icon" @click="handleMute">
-              <div v-show="mute">
-                <span class="iconify" data-icon="fa:microphone-slash"></span>
-              </div>
-              <div v-show="!mute">
-                <span class="iconify" data-icon="fa:microphone"></span>
-              </div>
-            </button>
-
-            <button id="icon" @click="handleCamera">
-              <div v-show="cameraIsClosed">
-                <span
-                  class="iconify"
-                  data-icon="carbon:video-off-filled"
-                ></span>
-              </div>
-              <div v-show="!cameraIsClosed">
-                <span class="iconify" data-icon="carbon:video-filled"></span>
-              </div>
-            </button>
-          </div> -->
           <VoiceDot
             v-if="user_id !== uid"
             :level="
@@ -125,9 +112,10 @@
           />
           <p>
             {{
-              user_id.length > 15 ? user_id.substring(0, 15) + "..." : user_id
+              user_id.length > 15
+                ? displayName(user_id.substring(0, 15)) + "..."
+                : displayName(user_id)
             }}
-            <!-- <span v-if="user_id === uid && inMeeting"> ( you ) </span> -->
           </p>
         </div>
 
@@ -170,10 +158,12 @@
 
 <script>
 import Vue from "vue";
+import AOS from "aos";
 import VoiceDot from "./voice-dot/VoiceDot.vue";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import { generateName } from "@/utils/helper";
 AgoraRTC.setLogLevel(4);
 
 export default {
@@ -318,8 +308,12 @@ export default {
   created() {
     this.mute = this.preMute;
     this.cameraIsClosed = this.preCameraOff;
+    AOS.init({ duration: 500 });
   },
   methods: {
+    displayName(text) {
+      return generateName(text);
+    },
     handleCustom() {
       const tracks = this.$refs.ar.getLocalTracks();
       console.log(tracks);
@@ -327,7 +321,9 @@ export default {
     handleJoinSuccess() {
       this.inMeeting = true;
       // this.uid = uid;
-      Vue.$toast.success(`${this.uid} has the joined the meeting.`);
+      Vue.$toast.success(
+        `${generateName(this.uid)} has the joined the meeting.`
+      );
     },
     handleClientCreated() {
       window._agMeet = this;
@@ -337,7 +333,7 @@ export default {
     },
     handleMute() {
       this.mute = !this.mute;
-      Vue.$toast.warning(`Microphone Turned ${this.mute ? "OFF" : "ON"}`);
+      Vue.$toast.warning(`Microphone ${this.mute ? "off" : "on"}`);
     },
     handleCall() {
       if (this.inMeeting) {
@@ -346,13 +342,13 @@ export default {
       }
       this.$refs.ar.start().then(({ result, message }) => {
         if (!result) {
-          Vue.$toast.error("join channel error", message);
+          Vue.$toast.error("Invalid room channel", message);
         }
       });
     },
     handleLeave() {
       if (!this.inMeeting) {
-        Vue.$toast.error("You have not joined any meetings");
+        Vue.$toast.error("You have not joined any meeting");
         return;
       }
 
@@ -367,10 +363,10 @@ export default {
     },
     handleCamera() {
       this.cameraIsClosed = !this.cameraIsClosed;
-      Vue.$toast.warning(`Camera Turned ${this.cameraIsClosed ? "OFF" : "ON"}`);
+      Vue.$toast.warning(`Camera is ${this.cameraIsClosed ? "off" : "on"}`);
     },
     handleUserJoin(user) {
-      Vue.$toast.success(`${user.uid} has joined the meeting`);
+      Vue.$toast.success(`${generateName(user.uid)} has joined the meeting`);
       // weak net fallback
       this.$refs.ar.getClient().setStreamFallbackOption(user.uid, 2);
 
@@ -389,7 +385,7 @@ export default {
       }
     },
     handleUserLeft(user) {
-      Vue.$toast.success(`${user.uid} left meeting`);
+      Vue.$toast.success(`${generateName(user.uid)} has left the meeting.`);
       this.remoteUsers = this.$refs.ar
         .getRemoteUsers()
         .filter(
@@ -479,16 +475,6 @@ export default {
         this.pinedUid = uid;
         this.pined = true;
       }
-    },
-    handleShareScreen() {
-      if (!this.youAreShareScreening) {
-        if (this.otherIsShareScreening) {
-          Vue.$toast.warning(`other is sharing, and you will replace him.`);
-        }
-      } else {
-        Vue.$toast.success(`you will quit screen sharing.`);
-      }
-      this.openScreenSharing = !this.openScreenSharing;
     },
     handleStreamFallback(uid, type) {
       const list = this.streamFallbackList;

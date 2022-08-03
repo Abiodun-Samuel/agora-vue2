@@ -17,13 +17,15 @@
         </button>
       </div>
     </div>
-    {{ $route.query.user }}
+    <!-- {{ $route.query.user }} -->
+    <!-- <PreLoader /> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-// import { mapState } from "vuex";
+import { generateUid } from "@/utils/helper";
+// import PreLoader from "@/components/Loader/PreLoader.vue";
 
 export default {
   data() {
@@ -31,28 +33,14 @@ export default {
       name: null,
     };
   },
-
-  computed: {
-    // ...mapState("documentStore", {
-    //   uploadedPassport: (state) => state.passports,
-    // }),
-    // ...mapState("notarySessionStore", {
-    //   notary: (state) => state.notary,
-    // }),
-  },
-  mounted() {
-    this.$store.dispatch("documentStore/getPassports");
-  },
-
+  // components: { PreLoader },
+  computed: {},
+  mounted() {},
   methods: {
     async generate() {
       try {
-        const name_id = this.name
-          .trim()
-          .replace(/[^\w\s-]/g, "")
-          .replace(/[\s_-]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-
+        const name_id = generateUid(this.name);
+        console.log(name_id);
         const response = await axios.get(
           `https://gene-agora-token.herokuapp.com/rtc/test/publisher/uid/${name_id}`
         );
@@ -70,3 +58,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>
