@@ -72,11 +72,12 @@
         </div>
         <div class="text-left">
           <span class="text-primary small">
-            {{
+            {{ uid }}
+            <!-- {{
               uid.length > 15
                 ? displayName(uid).substring(0, 15) + "..."
                 : displayName(uid)
-            }}
+            }} -->
           </span>
         </div>
       </div>
@@ -111,11 +112,12 @@
             "
           />
           <p>
-            {{
+            {{ user_id }}
+            <!-- {{
               user_id.length > 15
                 ? displayName(user_id.substring(0, 15)) + "..."
                 : displayName(user_id)
-            }}
+            }} -->
           </p>
         </div>
 

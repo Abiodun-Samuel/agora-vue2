@@ -36,6 +36,7 @@ const actions = {
     Profile()
       .then((response) => {
         commit("SET_USERPROFILE", response.data.data);
+
         // dispatch agoratoken action
         dispatch(
           "agoraStore/getAgoraToken",

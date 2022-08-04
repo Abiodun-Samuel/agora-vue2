@@ -6,7 +6,7 @@ const state = () => ({
   agora: false,
   resource: null,
   sid: null,
-  recordUID: null
+  recordUID: null,
 });
 
 // getters
@@ -24,7 +24,7 @@ const actions = {
           sessionStorage.setItem("appid", response.data.appid);
           sessionStorage.setItem("channel", response.data.channelName);
 
-          router.push({ path: "/notary-session" });
+          router.push({ path: "/waiting-page" });
         }
       })
       .catch((error) => Vue.$toast.error(error));
