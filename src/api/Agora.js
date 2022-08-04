@@ -8,3 +8,7 @@ export const generateAgoraToken = (data) => {
     }/publisher/uid/${generateUid(data.uid)}`
   );
 };
+
+export const generateResourceId = (data) => {
+  return axios.post(`https://gene-agora-token.herokuapp.com/acquire`, data);
+};

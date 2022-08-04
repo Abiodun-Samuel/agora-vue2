@@ -29,7 +29,7 @@ const actions = {
         dispatch("getUserProfile");
       }
     } else {
-      Vue.$toast.error("Invalid Details");
+      Vue.$toast.error("Unauthorized");
     }
   },
   getUserProfile({ commit, dispatch, state }) {

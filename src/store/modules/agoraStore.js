@@ -1,9 +1,12 @@
 import Vue from "vue";
-import { generateAgoraToken } from "../../api/Agora";
+import { generateAgoraToken, generateResourceId } from "../../api/Agora";
 import router from "@/router";
 
 const state = () => ({
   agora: false,
+  resource: null,
+  sid: null,
+  recordUID: null
 });
 
 // getters
@@ -23,6 +26,14 @@ const actions = {
 
           router.push({ path: "/notary-session" });
         }
+      })
+      .catch((error) => Vue.$toast.error(error));
+  },
+
+  getResourceId() {
+    generateResourceId()
+      .then((response) => {
+        console.log(response);
       })
       .catch((error) => Vue.$toast.error(error));
   },

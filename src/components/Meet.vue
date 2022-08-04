@@ -173,36 +173,41 @@ export default {
     AvatarAudio,
     PinButton,
   },
-  props: {
-    channel: {
-      type: [String],
-    },
-    uid: {
-      type: [String],
-    },
-    appid: {
-      type: [String],
-    },
-    token: {
-      type: [String],
-    },
-    preMute: {
-      type: Boolean,
-      default: false,
-    },
-    preCameraOff: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  // props: {
+  //   channel: {
+  //     type: [String],
+  //   },
+  //   uid: {
+  //     type: [String],
+  //   },
+  //   appid: {
+  //     type: [String],
+  //   },
+  //   token: {
+  //     type: [String],
+  //   },
+  //   preMute: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  //   preCameraOff: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
   data() {
     return {
+      uid: sessionStorage.getItem("uid"),
+      channel: sessionStorage.getItem("channel"),
+      appid: sessionStorage.getItem("appid"),
+      token: sessionStorage.getItem("token"),
+      preMute: false,
+      preCameraOff: false,
       mute: false,
       handleError: (error) => {
         // Vue.$toast.error(e);
         console.log(error.message || error);
       },
-      // uid: null,
       cameraIsClosed: false,
       inMeeting: false,
       remoteUsers: [],
