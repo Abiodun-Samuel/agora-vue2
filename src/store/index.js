@@ -28,5 +28,5 @@ export const store = new Vuex.Store({
     agoraStore,
   },
   // plugins: [dataState],
-  plugins: [debug ? createLogger() : null],
+  plugins: [debug && createLogger()],
 });
