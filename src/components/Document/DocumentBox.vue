@@ -7,14 +7,15 @@
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
-        <img class="passport" v-if="show" :src="passport" />
+        <img src="" alt="" />
+        <!-- <img class="passport" v-if="show" :src="passport" /> -->
       </div>
 
       <div class="card-body mail-message-wrapper pt-2">
         <div class="mail-message">
           <div v-for="(doc, index) in files" class="border mb-1" :key="index">
             <span class="d-block text-center">
-              <img :src="doc.file" class="img-fluid" :alt="doc.id" />
+              <!-- <img :src="doc.file" class="img-fluid" :alt="doc.id" /> -->
             </span>
 
             <div class="clearfix">
@@ -128,10 +129,10 @@ export default {
 
   mounted() {
     AOS.init({ duration: 500 });
-    this.$store.dispatch(
-      "documentStore/getDocument",
-      "ba67f5db-e70f-43a6-9dcb-56620495b7c5"
-    );
+    // this.$store.dispatch(
+    //   "documentStore/getDocument",
+    //   "ba67f5db-e70f-43a6-9dcb-56620495b7c5"
+    // );
   },
 };
 </script>

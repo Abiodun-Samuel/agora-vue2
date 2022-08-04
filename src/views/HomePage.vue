@@ -1,6 +1,9 @@
 <template>
-  <div class="container mt-5 pt-5" style="height: 90vh">
-    <div class="row d-flex justify-content-center align-items-center">
+  <div
+    class="container d-flex justify-content-center align-items-center"
+    style="height: 100vh"
+  >
+    <!-- <div class="row d-flex justify-content-center align-items-center">
       <div class="col-lg-6">
         <input
           class="form-control"
@@ -16,16 +19,19 @@
           Proceed
         </button>
       </div>
-    </div>
-    <!-- {{ $route.query.user }} -->
-    <!-- <PreLoader /> -->
+    </div> -->
+    <PreLoader />
+    <!-- <a
+      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NTQ5MDgzLCJleHAiOjE2NTk3MjE4ODMsIm5iZiI6MTY1OTU0OTA4MywianRpIjoidXhBMGgyeEF5YnFucTd2TSIsInN1YiI6IjE4MzY3ODMwLTUzN2UtNGFjNi04MWNkLTlmYTJmYTRiZjYyZSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.gG66TCe3Z35b3loktIaT77SmK-OAEDmoBKb4fc1y7yg"
+    ></a> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { generateUid } from "@/utils/helper";
-// import PreLoader from "@/components/Loader/PreLoader.vue";
+import { store } from "@/store";
+import PreLoader from "@/components/Loader/PreLoader.vue";
 
 export default {
   data() {
@@ -33,9 +39,16 @@ export default {
       name: null,
     };
   },
-  // components: { PreLoader },
-  computed: {},
-  mounted() {},
+  components: { PreLoader },
+  computed: {
+    userDetails() {
+      return store.getters["userStore/userDetails"];
+    },
+  },
+  mounted() {
+    store.dispatch("userStore/setToken", this.$route.query.user);
+  },
+
   methods: {
     async generate() {
       try {

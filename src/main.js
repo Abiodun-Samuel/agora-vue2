@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import MessageComponent from "./components/message/main.js";
+// import MessageComponent from "./components/message/main.js";
 import Vuex from "vuex";
 import AgoraRtcVue from "agora-rtc-vue";
 import { store } from "./store";
@@ -13,7 +13,7 @@ import "vue-toast-notification/dist/theme-sugar.css";
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$message = MessageComponent;
+// Vue.prototype.$message = MessageComponent;
 Vue.use(VueToast, {
   duration: 3000,
   queue: false,

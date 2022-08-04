@@ -1,6 +1,6 @@
 import axios from "axios";
 import NProgress from "nprogress";
-import store from "@/store";
+import { store } from "../store";
 
 const Api = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
@@ -39,19 +39,16 @@ const { start: progressStart, stop: progressStop } = progressFns();
 
 Api.interceptors.request.use(
   async (config) => {
-    let hasToken = await store.getters["auth/token"];
-
+    let hasToken = await store.getters["userStore/token"];
     if (hasToken) {
       config.headers["Authorization"] = `Bearer ${hasToken}`;
     }
-
     if (!config.__noProgress) progressStart();
 
     return config;
   },
   (error) => {
     progressStop();
-
     return Promise.reject(error);
   }
 );
@@ -64,7 +61,6 @@ Api.interceptors.response.use(
   },
   (error) => {
     progressStop();
-    console.log("error from axios: ", error.response.statusText);
     return Promise.reject(error);
   }
 );

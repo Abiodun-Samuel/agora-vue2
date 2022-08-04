@@ -1,40 +1,64 @@
-import axios from "axios";
 import Vue from "vue";
+import { Profile } from "../../api/User";
 
 const state = () => ({
-  userDetails: null,
+  userProfile: {
+    name: null,
+  },
+  token: null,
 });
 
 // getters
-const getters = {};
+const getters = {
+  token(state) {
+    return state.token;
+  },
+  userDetails(state) {
+    return state.userProfile;
+  },
+};
 
 // actions
 const actions = {
-  async login({ commit }) {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.VUE_APP_TOKEN}`,
-        },
-      };
-
-      const response = await axios.get(
-        `http://tonote-api.herokuapp.com/api/v1/user/profile`,
-        config
-      );
-      commit("USER_DETAILS", response.data.data);
-      Vue.$toast.success("Login successfull");
-    } catch (error) {
-      console.log(error);
+  setToken({ commit, dispatch, state }, payload) {
+    if (payload) {
+      // set  auth token
+      commit("SET_TOKEN", payload);
+      // dispatch login action
+      if (state.token) {
+        dispatch("getUserProfile");
+      }
+    } else {
+      Vue.$toast.error("Invalid Details");
     }
+  },
+  getUserProfile({ commit, dispatch, state }) {
+    Profile()
+      .then((response) => {
+        commit("SET_USERPROFILE", response.data.data);
+        // dispatch agoratoken action
+        dispatch(
+          "agoraStore/getAgoraToken",
+          {
+            channel: "demo",
+            uid: state.userProfile.name,
+          },
+          { root: true }
+        );
+
+        Vue.$toast.success("Welcome");
+      })
+      .catch((error) => Vue.$toast.error(error));
   },
 };
 
 // mutations
 const mutations = {
-  USER_DETAILS(state, payload) {
-    state.userDetails = payload;
+  SET_TOKEN(state, payload) {
+    state.token = payload;
+  },
+  SET_USERPROFILE(state, payload) {
+    state.userProfile.name = `${payload.first_name} ${payload.last_name}`;
   },
 };
 
