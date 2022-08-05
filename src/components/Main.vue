@@ -14,6 +14,7 @@
       <div class="col-lg-7 col-md-6 my-2">
         <div class="main">
           <agora
+            :clientConfig="{ mode: 'rtc', role: 'publisher', codec: 'vp8' }"
             :channel="channel"
             :autoStart="false"
             :errorHandler="

@@ -54,9 +54,11 @@
             <img class="logo" src="../../assets/images/logo.png" alt="logo" />
           </router-link>
         </span>
-        <div :class="$route.path !== '/video' ? 'hidden__two' : ''">
+        <div v-if="$route.path === '/notary-session'">
           <button class="btn btn-sm btn-primary" disabled>Cancel</button>
-          <button class="btn btn-sm btn-primary ms-1">Complete</button>
+          <button @click="handleLeave" class="btn btn-sm btn-primary ms-1">
+            Complete
+          </button>
         </div>
       </div>
 
@@ -86,11 +88,15 @@
 </template>
 
 <script>
-// import { Icon } from "@iconify/vue";
+import { store } from "@/store";
 export default {
   name: "NavHeader",
-  components: {
-    //  Icon,
+  methods: {
+    handleLeave() {
+      store.dispatch("agoraStore/StopRecording");
+      store.commit("agoraStore/RESET");
+      this.$router.push("/notary-dashboard");
+    },
   },
 };
 </script>

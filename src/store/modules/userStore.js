@@ -61,6 +61,9 @@ const mutations = {
   SET_USERPROFILE(state, payload) {
     state.userProfile.name = `${payload.first_name} ${payload.last_name}`;
   },
+  SET_NAME(state, payload) {
+    state.userProfile.name = payload;
+  },
 };
 
 export default {

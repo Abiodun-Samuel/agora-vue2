@@ -4,7 +4,7 @@
     style="height: 100vh"
   >
     <div class="row d-flex justify-content-center align-items-center">
-      <div class="col-lg-6">
+      <div class="col-lg-10">
         <input
           class="form-control"
           type="text"
@@ -20,10 +20,10 @@
         </button>
       </div>
     </div>
-    <PreLoader />
+    <!-- <PreLoader /> -->
 
     <!-- <a
-      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NjMxMjQ5LCJleHAiOjE2NTk4MDQwNDksIm5iZiI6MTY1OTYzMTI0OSwianRpIjoiRmp3SkgyVTQzaTVvRkJZeCIsInN1YiI6IjE4MzY3ODMwLTUzN2UtNGFjNi04MWNkLTlmYTJmYTRiZjYyZSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.DPUUgocfltzeP02n5n29brT31-Ldy7w-d4TeGauUKtA"
+      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NjM5MDU2LCJleHAiOjE2NTk4MTE4NTYsIm5iZiI6MTY1OTYzOTA1NiwianRpIjoiVW5VcWpvZ252d1ZITmpiViIsInN1YiI6ImVlZDk0MDViLWU5MDMtNDM5Zi04Y2FkLWYyYmNmZGE5MzI1YSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vWLDcF8kbnahLpVovh6WNnLHgnL8qU7Vv-NocwS1GUs
     ></a> -->
   </div>
 </template>
@@ -31,8 +31,8 @@
 <script>
 import axios from "axios";
 import { generateUid } from "@/utils/helper";
-// import { store } from "@/store";
-import PreLoader from "@/components/Loader/PreLoader.vue";
+import { store } from "@/store";
+// import PreLoader from "@/components/Loader/PreLoader.vue";
 
 export default {
   data() {
@@ -40,11 +40,11 @@ export default {
       name: null,
     };
   },
-  components: { PreLoader },
+  // components: { PreLoader },
   computed: {
-    // userDetails() {
-    //   return store.getters["userStore/userDetails"];
-    // },
+    userDetails() {
+      return store.getters["userStore/userDetails"];
+    },
   },
   mounted() {
     // store.dispatch("userStore/setToken", this.$route.query.user);
@@ -54,7 +54,6 @@ export default {
     async generate() {
       try {
         const name_id = generateUid(this.name);
-        console.log(name_id);
         const response = await axios.get(
           `https://gene-agora-token.herokuapp.com/rtc/demoroom/publisher/uid/${name_id}`
         );
@@ -65,6 +64,7 @@ export default {
         setTimeout(() => {
           this.$router.push({ path: "/waiting-page" });
         }, 500);
+        store.commit("userStore/SET_NAME", this.name);
       } catch (error) {
         console.log(error);
       }

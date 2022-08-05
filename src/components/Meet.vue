@@ -2,6 +2,7 @@
   <div class="videocall__box">
     <div class="meet">
       <agora
+        :clientConfig="{ mode: 'rtc', role: 'publisher', codec: 'vp8' }"
         ref="ar"
         :channel="channel"
         :appid="appid"
@@ -148,13 +149,8 @@
           />
         </div>
       </div>
-    </div>
-    <!-- <div class="banner">
-      <on-call-button v-if="!inMeeting" @click="handleCall" />
-      <close-button v-if="inMeeting" @click="handleLeave" />
-      <mp-button :class="microphoneClass" @click="handleMute" />
-      <video-button :class="cameraClass" @click="handleCamera" />
-    </div> -->
+    </div><p class="text-danger" style="position: absolute; bottom:0px">REC</p>
+    <!-- <close-button v-if="inMeeting" @click="handleLeave" /> -->
   </div>
 </template>
 
@@ -166,6 +162,9 @@ import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { generateName } from "@/utils/helper";
+import { store } from "@/store";
+// import { store } from "@/store/index";
+
 AgoraRTC.setLogLevel(4);
 
 export default {
@@ -493,6 +492,12 @@ export default {
         Vue.$toast.error("stream fallback type error");
       }
     },
+  },
+  mounted() {},
+  unmount() {
+    store.dispatch("agoraStore/StopRecording");
+    store.commit("agoraStore/RESET");
+    this.$router.push("/notary-dashboard");
   },
 };
 </script>

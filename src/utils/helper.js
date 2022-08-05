@@ -25,6 +25,16 @@ export const randomId = (length) => {
   return result;
 };
 
+export const randomNumber = (length) => {
+  var result = "";
+  var characters = "0123456789";
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
 // generate a dynamic uid for agora
 export const generateUid = (string) => {
   return slugify(string) + "#" + randomId(5);

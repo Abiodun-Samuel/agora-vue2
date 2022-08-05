@@ -5,10 +5,10 @@
       <div class="col-lg-2 my-2">
         <ToolBox />
       </div>
-      <div class="col-lg-6 my-2">
+      <div class="col-lg-7 my-2">
         <DocumentBox />
       </div>
-      <div class="col-lg-4 my-2">
+      <div class="col-lg-3 my-2">
         <MeetComponent
           :channel="channel"
           :appid="appid"

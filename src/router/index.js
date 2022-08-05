@@ -3,13 +3,19 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 const HomePage = () =>
-  import(/* webpackChunkName: "signature" */ "@/views/HomePage.vue");
+  import(/* webpackChunkName: "Homepage" */ "@/views/HomePage.vue");
 const NotarySessionPage = () =>
-  import(/* webpackChunkName: "signature" */ "@/views/NotarySessionPage.vue");
+  import(
+    /* webpackChunkName: "Notarysessionpage" */ "@/views/NotarySessionPage.vue"
+  );
 const WaitingPage = () =>
-  import(/* webpackChunkName: "signature" */ "@/views/WaitingPage.vue");
+  import(/* webpackChunkName: "waitingpage" */ "@/views/WaitingPage.vue");
+const NotaryDashboardPage = () =>
+  import(
+    /* webpackChunkName: "Notarydashboardpage" */ "@/views/NotaryDashboardPage.vue"
+  );
 const NotFound = () =>
-  import(/* webpackChunkName: "signature" */ "@/views/NotFound/NotFound.vue");
+  import(/* webpackChunkName: "Notfound" */ "@/views/NotFound/NotFound.vue");
 
 const routes = [
   {
@@ -54,6 +60,36 @@ const routes = [
     path: "/notary-session",
     name: "NotarySession",
     component: NotarySessionPage,
+    meta: {
+      title: "ToNote Notary",
+      transitionName: "fade",
+      metaTags: [
+        {
+          name: "description",
+          content: "ToNote Notary Session page",
+        },
+        {
+          property: "og:description",
+          content: "ToNote Notary Session page",
+        },
+      ],
+    },
+    children: [
+      // {
+      //   path: "",
+      //   name: "document.dashboard",
+      //   component: DocumentDashboard,
+      //   meta: {
+      //     title: "User | Document - ToNote",
+      //     transitionName: "fade",
+      //   },
+      // },
+    ],
+  },
+  {
+    path: "/notary-dashboard",
+    name: "NotaryDashboard",
+    component: NotaryDashboardPage,
     meta: {
       title: "ToNote Notary",
       transitionName: "fade",

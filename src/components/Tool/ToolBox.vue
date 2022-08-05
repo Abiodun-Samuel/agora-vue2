@@ -1,7 +1,7 @@
 <template>
   <div class="tool__box d-sm-none d-lg-block">
     <div class="d-flex justify-content-center">
-      <div class="sidebar-nav card p-2">
+      <div class="sidebar-nav card px-2 pt-2">
         <div>
           <div>
             Add to document
@@ -94,6 +94,17 @@
             </li>
           </div>
         </div> -->
+
+        <div class="d-flex justify-content-between mt-1">
+          <p class="text-danger my-0 py-0">
+            <span class="iconify" data-icon="wpf:record"></span>
+            <span class="small">REC</span>
+          </p>
+          <p class="small text-danger">
+            <label id="minutes">{{ minutes }}</label
+            >:<label id="seconds">{{ seconds }}</label>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -144,18 +155,34 @@ export default {
       signerEmail: "",
       toolKit: "",
       addMouseMoveListener: "",
+      minutes: 0,
+      seconds: 0,
+      totalSeconds: 0,
     };
   },
   components: {
     ToolKits,
   },
+  methods: {
+    setTime() {
+      ++this.totalSeconds;
+      this.seconds = this.pad(this.totalSeconds % 60);
+      this.minutes = this.pad(parseInt(this.totalSeconds / 60));
+    },
+    pad(val) {
+      var valString = val + "";
+      if (valString.length < 2) {
+        return "0" + valString;
+      } else {
+        return valString;
+      }
+    },
+  },
+  mounted() {
+    setInterval(this.setTime, 1000);
+  },
 };
-// const participants = computed(
-//   () => store.state.documentStore.documents.files.participants
-// );
-// const userDetails = computed(() => store.state.userStore.userDetails);
 
-// const addMe = () => {};
 </script>
 
 <style>
