@@ -21,3 +21,4 @@ export const startRecording = async (data) => {
 export const stopRecording = async (data) => {
   return axios.post(`https://gene-agora-token.herokuapp.com/stop`, data);
 };
+

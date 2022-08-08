@@ -36,6 +36,7 @@ import { generateUid } from "@/utils/helper";
 import { store } from "@/store";
 // import PreLoader from "@/components/Loader/PreLoader.vue";
 
+
 export default {
   data() {
     return {

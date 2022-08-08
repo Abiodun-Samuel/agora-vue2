@@ -92,9 +92,9 @@ export default {
   name: "NavHeader",
   methods: {
     handleLeave() {
-      // store.dispatch("agoraStore/StopRecording");
+      store.dispatch("agoraStore/StopRecording");
       store.commit("agoraStore/RESET");
-      this.$router.push("/waiting-page");
+      this.$router.push("/");
     },
   },
 };

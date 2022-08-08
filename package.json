@@ -16,6 +16,7 @@
     "core-js": "^3.8.3",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
+    "pusher-js": "^7.3.0",
     "secure-ls": "^1.2.6",
     "typed.js": "^2.0.12",
     "vue": "^2.6.14",

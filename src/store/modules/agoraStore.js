@@ -49,6 +49,7 @@ const actions = {
         data
       );
       commit("SET_RESOURCE", response.data.resourceId);
+      commit("SET_RECORDERUID", data.uid);
     } catch (error) {
       Vue.$toast.error(error);
     }
