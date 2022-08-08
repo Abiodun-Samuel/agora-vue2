@@ -20,16 +20,17 @@ const getters = {
 
 // actions
 const actions = {
-  setToken({ commit, dispatch, state }, payload) {
+  setToken({ commit }, payload) {
     if (payload) {
       // set  auth token
       commit("SET_TOKEN", payload);
       // dispatch login action
-      if (state.token) {
-        dispatch("getUserProfile");
-      }
+      // if (state.token) {
+      //   dispatch("getUserProfile");
+      // }
+      Vue.$toast.success("Welcome");
     } else {
-      Vue.$toast.error("Unauthorized");
+      // Vue.$toast.error("Unauthorized");
     }
   },
   getUserProfile({ commit, dispatch, state }) {

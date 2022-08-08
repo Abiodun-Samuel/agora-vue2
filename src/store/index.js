@@ -12,7 +12,7 @@ const ls = new SecureLS({ isCompression: false });
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== "production";
 const dataState = createPersistedState({
-  paths: ["userStore.userProfile"],
+  paths: ["userStore.userProfile", "userStore.token"],
   storage: {
     getItem: (key) => ls.get(key),
     setItem: (key, value) => ls.set(key, value),

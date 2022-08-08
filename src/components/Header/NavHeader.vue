@@ -30,7 +30,6 @@
     <div class="container">
       <div class="menu d-flex justify-content-between w-100 align-items-center">
         <a class="navbar-brand d-none d-lg-block text-muted" href="/">
-          <!-- <i class="" data-feather="home"></i> -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="14"
@@ -93,9 +92,9 @@ export default {
   name: "NavHeader",
   methods: {
     handleLeave() {
-      store.dispatch("agoraStore/StopRecording");
+      // store.dispatch("agoraStore/StopRecording");
       store.commit("agoraStore/RESET");
-      this.$router.push("/notary-dashboard");
+      this.$router.push("/waiting-page");
     },
   },
 };

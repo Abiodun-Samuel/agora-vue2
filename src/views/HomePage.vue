@@ -3,7 +3,7 @@
     class="container d-flex justify-content-center align-items-center"
     style="height: 100vh"
   >
-    <div class="row d-flex justify-content-center align-items-center">
+    <div class="row">
       <div class="col-lg-10">
         <input
           class="form-control"
@@ -18,12 +18,14 @@
         >
           Proceed
         </button>
+        <!-- <button @click="generate" class="btn btn-primary mr-2 my-2 btn-block">
+          click
+        </button> -->
       </div>
     </div>
     <!-- <PreLoader /> -->
-
     <!-- <a
-      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NjM5MDU2LCJleHAiOjE2NTk4MTE4NTYsIm5iZiI6MTY1OTYzOTA1NiwianRpIjoiVW5VcWpvZ252d1ZITmpiViIsInN1YiI6ImVlZDk0MDViLWU5MDMtNDM5Zi04Y2FkLWYyYmNmZGE5MzI1YSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.vWLDcF8kbnahLpVovh6WNnLHgnL8qU7Vv-NocwS1GUs
+      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NjkwMjI3LCJleHAiOjE2NTk4NjMwMjcsIm5iZiI6MTY1OTY5MDIyNywianRpIjoiNTl0NWpuSXczbmFPU052MSIsInN1YiI6IjE4MzY3ODMwLTUzN2UtNGFjNi04MWNkLTlmYTJmYTRiZjYyZSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.v-f0GRY6aNCXlRvZB7RZZiGno4CyX3ZGK5QUXqxjJJY
     ></a> -->
   </div>
 </template>
@@ -42,6 +44,9 @@ export default {
   },
   // components: { PreLoader },
   computed: {
+    agora() {
+      return store.state.agoraStore.resource;
+    },
     userDetails() {
       return store.getters["userStore/userDetails"];
     },
@@ -51,6 +56,29 @@ export default {
   },
 
   methods: {
+    // async gen() {
+    //   try {
+    //     const response = await axios.post(
+    //       `https://gene-agora-token.herokuapp.com/acquire`,
+    //       {
+    //         channel: "demoroom",
+    //         uid: 1503150315,
+    //         mode: "web",
+    //         url: "https://tonote-notary-session.netlify.app/notary-session",
+    //       }
+    //     );
+    //     console.log(response);
+    //     // commit("SET_RESOURCE", response.data.resourceId);
+    //   } catch (error) {
+    //     // Vue.$toast.error(error);
+    //   }
+    //   // store.dispatch("agoraStore/getResourceId", {
+    //   //   channel: "room",
+    //   //   uid: 1503150315,
+    //   //   mode: "web",
+    //   //   url: "https://tonote-notary-session.netlify.app/notary-session",
+    //   // });
+    // },
     async generate() {
       try {
         const name_id = generateUid(this.name);

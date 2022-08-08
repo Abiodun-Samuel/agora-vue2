@@ -1,7 +1,7 @@
 <template>
   <div class="tool">
     <li
-      class="btn"
+      class="btn btn-sm"
       :class="{ blue: tool.hasPresence }"
       :data-user="tool.userId"
       :data-email="tool.userEmail"
@@ -518,10 +518,10 @@ export default {
 
 .tool li {
   border-radius: 4px;
-  padding: 1rem 0.5rem;
-  height: 35px;
+  padding: 0.9rem 0.5rem;
+  height: 10px;
   font-size: 12px;
-  line-height: 18px;
+  line-height: 15px;
   font-weight: 500;
   border: 2px solid #7b7171;
   display: inline-flex;

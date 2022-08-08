@@ -1,10 +1,11 @@
 import Vue from "vue";
 import {
   generateAgoraToken,
-  generateResourceId,
+  // generateResourceId,
   startRecording,
   stopRecording,
 } from "../../api/Agora";
+import axios from "axios";
 import router from "@/router";
 
 const state = () => ({
@@ -12,7 +13,7 @@ const state = () => ({
   resource: null,
   sid: null,
   recorderUid: null,
-  filename: [],
+  filename: null,
   mode: "web",
 });
 
@@ -43,12 +44,21 @@ const actions = {
 
   async getResourceId({ commit }, data) {
     try {
-      const response = await generateResourceId(data);
+      const response = await axios.post(
+        `https://gene-agora-token.herokuapp.com/acquire`,
+        data
+      );
       commit("SET_RESOURCE", response.data.resourceId);
-      commit("SET_RECORDERUID", data.uid);
     } catch (error) {
       Vue.$toast.error(error);
     }
+    // try {
+    //   const response = await generateResourceId(data);
+    //   commit("SET_RESOURCE", response.data.resourceId);
+    //   commit("SET_RECORDERUID", data.uid);
+    // } catch (error) {
+    //   Vue.$toast.error(error);
+    // }
   },
 
   async StartRecording({ commit, dispatch, state }, data) {
@@ -97,10 +107,8 @@ const mutations = {
     state.sid = payload;
   },
   SET_FILE(state, payload) {
-    state.filename.push(
-      payload.serverResponse.extensionServiceState[1].payload.fileList[1]
-        .filename
-    );
+    state.filename =
+      payload.serverResponse.extensionServiceState[1].payload.fileList[1].filename;
   },
   RESET(state) {
     state.resource = null;

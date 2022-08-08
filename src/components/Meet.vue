@@ -73,12 +73,11 @@
         </div>
         <div class="text-left">
           <span class="text-primary small">
-            {{ uid }}
-            <!-- {{
-              uid.length > 15
+            {{
+              uid?.length > 15
                 ? displayName(uid).substring(0, 15) + "..."
                 : displayName(uid)
-            }} -->
+            }}
           </span>
         </div>
       </div>
@@ -113,12 +112,12 @@
             "
           />
           <p>
-            {{ user_id }}
-            <!-- {{
-              user_id.length > 15
+            <!-- {{ user_id }} -->
+            {{
+              user_id?.length > 15
                 ? displayName(user_id.substring(0, 15)) + "..."
                 : displayName(user_id)
-            }} -->
+            }}
           </p>
         </div>
 
@@ -149,7 +148,7 @@
           />
         </div>
       </div>
-    </div><p class="text-danger" style="position: absolute; bottom:0px">REC</p>
+    </div>
     <!-- <close-button v-if="inMeeting" @click="handleLeave" /> -->
   </div>
 </template>
