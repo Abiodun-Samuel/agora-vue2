@@ -92,9 +92,16 @@ export default {
   name: "NavHeader",
   methods: {
     handleLeave() {
-      store.dispatch("agoraStore/StopRecording");
-      store.commit("agoraStore/RESET");
+      if (this.userDetails.name === "Notary") {
+        store.dispatch("agoraStore/StopRecording");
+        store.commit("agoraStore/RESET");
+      }
       this.$router.push("/");
+    },
+  },
+  computed: {
+    userDetails() {
+      return store.getters["userStore/userDetails"];
     },
   },
 };

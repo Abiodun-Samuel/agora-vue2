@@ -226,6 +226,9 @@ export default {
     };
   },
   computed: {
+    userDetails() {
+      return store.getters["userStore/userDetails"];
+    },
     refuseList() {
       return this.openScreenSharing ? [this.shareScreenUID] : [];
     },
@@ -313,14 +316,16 @@ export default {
     this.mute = this.preMute;
     this.cameraIsClosed = this.preCameraOff;
     AOS.init({ duration: 500 });
-    store.dispatch("agoraStore/StartRecording", {
-      channel: sessionStorage.getItem("channel"),
-      uid: randomNumber(8),
-      mode: "web",
-      // token:
-      //   "0063a7155f8a86345d7ad31066ac2a8ed48IADaR0LjXcFWns3gChmGJM00DTuB69na9SXEzYmFRIi6jvVg3hTeLEQ+IgAHwB1uNUztYgQAAQD1E+1iAgD1E+1iAwD1E+1iBAD1E+1i",
-      url: "https://tonote-notary-session.netlify.app/notary-session",
-    });
+    if (this.userDetails.name === "Notary") {
+      store.dispatch("agoraStore/StartRecording", {
+        channel: sessionStorage.getItem("channel"),
+        uid: randomNumber(8),
+        mode: "web",
+        // token:
+        //   "0063a7155f8a86345d7ad31066ac2a8ed48IADaR0LjXcFWns3gChmGJM00DTuB69na9SXEzYmFRIi6jvVg3hTeLEQ+IgAHwB1uNUztYgQAAQD1E+1iAgD1E+1iAwD1E+1iBAD1E+1i",
+        url: "https://tonote-notary-session.netlify.app/notary-session",
+      });
+    }
   },
   methods: {
     displayName(text) {
@@ -500,8 +505,10 @@ export default {
     },
   },
   unmounted() {
-    store.dispatch("agoraStore/StopRecording");
-    store.commit("agoraStore/RESET");
+    if (this.userDetails.name === "notary") {
+      store.dispatch("agoraStore/StopRecording");
+      store.commit("agoraStore/RESET");
+    }
     this.$router.push("/");
   },
 };
