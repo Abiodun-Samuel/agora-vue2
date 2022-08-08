@@ -2,7 +2,7 @@
   <div class="videocall__box">
     <div class="meet">
       <agora
-        :clientConfig="{ mode: 'rtc', role: 'publisher', codec: 'vp8' }"
+        :clientConfig="{ mode: 'rtc', codec: 'vp8' }"
         ref="ar"
         :channel="channel"
         :appid="appid"
