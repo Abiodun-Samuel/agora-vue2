@@ -92,7 +92,7 @@ export default {
   name: "NavHeader",
   methods: {
     handleLeave() {
-      if (this.userDetails.name === "Notary") {
+      if (this.userDetails.name === "notary") {
         store.dispatch("agoraStore/StopRecording");
         store.commit("agoraStore/RESET");
       }

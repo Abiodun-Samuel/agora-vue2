@@ -316,7 +316,8 @@ export default {
     this.mute = this.preMute;
     this.cameraIsClosed = this.preCameraOff;
     AOS.init({ duration: 500 });
-    if (this.userDetails.name === "Notary") {
+
+    if (this.userDetails.name === "notary") {
       store.dispatch("agoraStore/StartRecording", {
         channel: sessionStorage.getItem("channel"),
         uid: randomNumber(8),
