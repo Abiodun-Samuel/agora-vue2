@@ -12,7 +12,9 @@ const state = () => ({
   agora: false,
   resource: null,
   sid: null,
+  // recorder Uid === Recording Session Id(appended to url)
   recorderUid: null,
+  sessionId: null,
   filename: null,
   mode: "web",
 });
@@ -42,6 +44,10 @@ const actions = {
       .catch((error) => Vue.$toast.error(error));
   },
 
+  SetRecorder({ commit }, payload) {
+    commit("SET_RECORDER", payload);
+  },
+
   async getResourceId({ commit }, data) {
     try {
       const response = await axios.post(
@@ -49,7 +55,6 @@ const actions = {
         data
       );
       commit("SET_RESOURCE", response.data.resourceId);
-      commit("SET_RECORDERUID", data.uid);
     } catch (error) {
       Vue.$toast.error(error);
     }
@@ -101,8 +106,9 @@ const mutations = {
   SET_RESOURCE(state, payload) {
     state.resource = payload;
   },
-  SET_RECORDERUID(state, payload) {
+  SET_RECORDER(state, payload) {
     state.recorderUid = payload;
+    state.sessionId = payload;
   },
   SET_SID(state, payload) {
     state.sid = payload;

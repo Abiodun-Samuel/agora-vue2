@@ -159,9 +159,8 @@ import VoiceDot from "./voice-dot/VoiceDot.vue";
 import AvatarAudio from "./avatar-audio/main";
 import PinButton from "./pin-button/main";
 import AgoraRTC from "agora-rtc-sdk-ng";
-import { generateName, randomNumber } from "@/utils/helper";
+import { generateName } from "@/utils/helper";
 import { store } from "@/store";
-// import { store } from "@/store/index";
 
 AgoraRTC.setLogLevel(4);
 
@@ -226,6 +225,10 @@ export default {
     };
   },
   computed: {
+    // session id === recoreder uid
+    sessionId() {
+      return store.state.agoraStore.sessionId;
+    },
     userDetails() {
       return store.getters["userStore/userDetails"];
     },
@@ -320,11 +323,11 @@ export default {
     if (this.userDetails.name === "notary") {
       store.dispatch("agoraStore/StartRecording", {
         channel: sessionStorage.getItem("channel"),
-        uid: randomNumber(8),
+        uid: this.sessionId,
         mode: "web",
         // token:
         //   "0063a7155f8a86345d7ad31066ac2a8ed48IADaR0LjXcFWns3gChmGJM00DTuB69na9SXEzYmFRIi6jvVg3hTeLEQ+IgAHwB1uNUztYgQAAQD1E+1iAgD1E+1iAwD1E+1iBAD1E+1i",
-        url: "https://tonote-notary-session.netlify.app/notary-session",
+        url: `https://tonote-notary-session.netlify.app/notary-session/${this.sessionId}`,
       });
     }
   },

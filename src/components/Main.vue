@@ -92,6 +92,7 @@ import VoiceDot from "./voice-dot/main.vue";
 import MpButtonWhite from "./buttons/mp-button-white";
 import VideoButtonWhite from "./buttons/video-button-white";
 import { mapState } from "vuex";
+import { store } from "@/store";
 
 export default {
   name: "MainComponent",
@@ -120,6 +121,9 @@ export default {
     };
   },
   computed: {
+    sessionId() {
+      return store.state.agoraStore.sessionId;
+    },
     ...mapState({
       userDetails: (state) => state.userStore.userDetails,
     }),
@@ -149,7 +153,7 @@ export default {
       });
     },
     handleJoin() {
-      this.$router.push({ path: "/notary-session" });
+      this.$router.push({ path: `/notary-session/${this.sessionId}` });
       this.$emit("join-meeting", {
         channel: this.channel,
         mute: this.mute,
