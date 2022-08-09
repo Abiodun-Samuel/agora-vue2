@@ -14,6 +14,7 @@ import MainPage from "@/components/Main.vue";
 import { store } from "@/store";
 // import { randomNumber } from "@/utils/helper";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import { randomNumber } from "@/utils/helper";
 // import { randomNumber } from "@/utils/helper";
 // import { randomNumber } from '@/utils/helper';
 AgoraRTC.setLogLevel(4);
@@ -47,6 +48,9 @@ export default {
     },
   },
   mounted() {
+    if (this.userDetails.name === "notary") {
+      store.dispatch("agoraStore/SetRecorder", randomNumber(8));
+    }
     // if (this.userDetails.name) {
     // store.dispatch("agoraStore/StartRecording", {
     //   channel: sessionStorage.getItem("channel"),

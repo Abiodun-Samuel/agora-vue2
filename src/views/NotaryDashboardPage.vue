@@ -13,7 +13,7 @@ import { store } from "@/store";
 export default {
   computed: {
     recordedFiles() {
-      return store.state.agoraStore.filename; 
+      return store.state.agoraStore.filename;
       // return store.getters["agoraStore/files"];
     },
   },

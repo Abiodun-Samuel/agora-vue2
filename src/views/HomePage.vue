@@ -32,7 +32,7 @@
 
 <script>
 import axios from "axios";
-import { generateUid, randomNumber } from "@/utils/helper";
+import { generateUid } from "@/utils/helper";
 import { store } from "@/store";
 // import PreLoader from "@/components/Loader/PreLoader.vue";
 
@@ -52,7 +52,6 @@ export default {
     },
   },
   mounted() {
-    store.dispatch("agoraStore/SetRecorder", randomNumber(8));
     // store.dispatch("userStore/setToken", this.$route.query.user);
   },
 
