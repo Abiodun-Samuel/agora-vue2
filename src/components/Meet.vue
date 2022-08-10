@@ -3,6 +3,7 @@
     <div class="meet">
       <agora
         ref="ar"
+        :clientConfig="{ mode: 'rtc', codec: 'vp8' }"
         :channel="channel"
         :appid="appid"
         :token="token"
@@ -320,14 +321,14 @@ export default {
     this.cameraIsClosed = this.preCameraOff;
     AOS.init({ duration: 500 });
 
-    if (this.userDetails.name === "notary") {
+    if (this.userDetails.name === 111111) {
       store.dispatch("agoraStore/StartRecording", {
         channel: sessionStorage.getItem("channel"),
         uid: this.sessionId,
         mode: "web",
         // token:
-        //   "0063a7155f8a86345d7ad31066ac2a8ed48IADaR0LjXcFWns3gChmGJM00DTuB69na9SXEzYmFRIi6jvVg3hTeLEQ+IgAHwB1uNUztYgQAAQD1E+1iAgD1E+1iAwD1E+1iBAD1E+1i",
-        url: `https://tonote-notary-session.netlify.app/notary-session/12345678`,
+        //  "0063a7155f8a86345d7ad31066ac2a8ed48IADaR0LjXcFWns3gChmGJM00DTuB69na9SXEzYmFRIi6jvVg3hTeLEQ+IgAHwB1uNUztYgQAAQD1E+1iAgD1E+1iAwD1E+1iBAD1E+1i",
+        url: `https://tonote-notary-session.netlify.app/notary-session/test-recording`,
         // url: `https://tonote-notary-session.netlify.app/notary-session/${this.sessionId}`,
       });
     }

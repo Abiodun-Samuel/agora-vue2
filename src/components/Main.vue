@@ -153,7 +153,7 @@ export default {
       });
     },
     handleJoin() {
-      this.$router.push({ path: `/notary-session/12345678` });
+      this.$router.push({ path: `/notary-session/test-recording` });
       this.$emit("join-meeting", {
         channel: this.channel,
         mute: this.mute,

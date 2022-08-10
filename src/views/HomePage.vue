@@ -18,9 +18,33 @@
         >
           Proceed
         </button>
-        <button @click="mess" class="btn btn-primary mr-2 my-2 btn-block">
+
+        <div
+          style="
+            height: 500px;
+            width: 500px;
+            border: 1px solid red;
+            position: relative;
+          "
+        >
+          <vue-draggable-resizable
+            :w="100"
+            :h="100"
+            @dragging="onDrag"
+            @resizing="onResize"
+            :parent="true"
+          >
+            <p>
+              Hello! I'm a flexible component. You can drag me around and you
+              can resize me.<br />
+              X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height:
+              {{ height }}
+            </p>
+          </vue-draggable-resizable>
+        </div>
+        <!-- <button @click="mess" class="btn btn-primary mr-2 my-2 btn-block">
           try
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- <PreLoader /> -->
