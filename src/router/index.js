@@ -58,7 +58,7 @@ const routes = [
     },
   },
   {
-    path: "/notary-session/:sessionId",
+    path: "/notary-session/test-recording",
     name: "NotarySession",
     component: NotarySessionPage,
     meta: {
