@@ -321,7 +321,7 @@ export default {
     this.cameraIsClosed = this.preCameraOff;
     AOS.init({ duration: 500 });
 
-    if (this.userDetails.name === 111111) {
+    if (this.userDetails.name === "111111") {
       store.dispatch("agoraStore/StartRecording", {
         channel: sessionStorage.getItem("channel"),
         uid: this.sessionId,

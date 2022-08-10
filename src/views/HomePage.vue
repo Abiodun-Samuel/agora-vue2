@@ -19,6 +19,8 @@
           Proceed
         </button>
 
+        {{ userDetails.name }}
+
         <!-- <div
           style="
             height: 500px;
@@ -56,7 +58,7 @@
 
 <script>
 import axios from "axios";
-import { generateUid } from "@/utils/helper";
+// import { generateUid } from "@/utils/helper";
 import { store } from "@/store";
 import Pusher from "pusher-js";
 import Api from "@/api";
@@ -125,7 +127,7 @@ export default {
     // },
     async generate() {
       try {
-        const name_id = generateUid(this.name);
+        const name_id = this.name;
         const response = await axios.get(
           `https://gene-agora-token.herokuapp.com/rtc/demoroom/publisher/uid/${name_id}`
         );

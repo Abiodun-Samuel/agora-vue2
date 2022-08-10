@@ -48,7 +48,7 @@ export default {
     },
   },
   mounted() {
-    if (this.userDetails.name === "111111") {
+    if (this.userDetails.name === '111111') {
       store.dispatch("agoraStore/SetRecorder", randomNumber(6));
     }
     // if (this.userDetails.name) {
