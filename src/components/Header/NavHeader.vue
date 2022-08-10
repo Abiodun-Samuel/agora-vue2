@@ -53,7 +53,8 @@
             <img class="logo" src="../../assets/images/logo.png" alt="logo" />
           </router-link>
         </span>
-        <div v-if="userDetails.name === 'notary'">
+        <div>
+          <!-- <div v-if="userDetails.name === 'notary'"> -->
           <button class="btn btn-sm btn-primary" disabled>Cancel</button>
           <button @click="handleLeave" class="btn btn-sm btn-primary ms-1">
             Complete
@@ -70,7 +71,7 @@ export default {
   name: "NavHeader",
   methods: {
     handleLeave() {
-      if (this.userDetails.name === '111111') {
+      if (this.userDetails.name === "111111") {
         store.dispatch("agoraStore/StopRecording");
         store.commit("agoraStore/RESET");
       }
