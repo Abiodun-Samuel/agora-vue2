@@ -154,11 +154,11 @@ export default {
     },
     handleJoin() {
       this.$router.push({ path: `/notary-session/test-recording` });
-      this.$emit("join-meeting", {
-        channel: this.channel,
-        mute: this.mute,
-        cameraOff: this.cameraOff,
-      });
+      // this.$emit("join-meeting", {
+      //   channel: this.channel,
+      //   mute: this.mute,
+      //   cameraOff: this.cameraOff,
+      // });
     },
     handleMpClick() {
       this.mute = !this.mute;

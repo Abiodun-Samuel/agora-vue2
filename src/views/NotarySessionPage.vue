@@ -35,8 +35,8 @@ export default {
   },
   data() {
     return {
-      isJoinMeeting: false,
-      config: null,
+      // isJoinMeeting: false,
+      // config: null,
       uid: sessionStorage.getItem("uid"),
       appid: sessionStorage.getItem("appid"),
       channel: sessionStorage.getItem("channel"),
@@ -44,10 +44,10 @@ export default {
     };
   },
   methods: {
-    handleJoinMeeting(config) {
-      this.isJoinMeeting = true;
-      this.config = config;
-    },
+    // handleJoinMeeting(config) {
+    //   this.isJoinMeeting = true;
+    //   this.config = config;
+    // },
     handleLeaveMeeting() {
       this.isJoinMeeting = false;
     },
