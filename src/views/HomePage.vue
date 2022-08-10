@@ -19,7 +19,7 @@
           Proceed
         </button>
 
-        <div
+        <!-- <div
           style="
             height: 500px;
             width: 500px;
@@ -41,7 +41,7 @@
               {{ height }}
             </p>
           </vue-draggable-resizable>
-        </div>
+        </div> -->
         <!-- <button @click="mess" class="btn btn-primary mr-2 my-2 btn-block">
           try
         </button> -->
@@ -78,10 +78,7 @@ export default {
     };
   },
   // components: { PreLoader },
-  watch: {
-    // pusher() {
-    // },
-  },
+  watch: {},
   computed: {
     agora() {
       return store.state.agoraStore.resource;

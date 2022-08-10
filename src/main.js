@@ -7,11 +7,10 @@ import AgoraRtcVue from "agora-rtc-vue";
 import { store } from "./store";
 import VueToast from "vue-toast-notification";
 
-import VueDraggableResizable from 'vue-draggable-resizable'
+import VueDraggableResizable from "vue-draggable-resizable";
 
 // optionally import default styles
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
-
+import "vue-draggable-resizable/dist/VueDraggableResizable.css";
 
 import "bootstrap/dist/js/bootstrap.js";
 import "agora-rtc-vue/lib/agora-rtc-vue.css";

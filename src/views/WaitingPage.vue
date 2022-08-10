@@ -48,8 +48,8 @@ export default {
     },
   },
   mounted() {
-    if (this.userDetails.name === 111111) {
-      store.dispatch("agoraStore/SetRecorder", randomNumber(8));
+    if (this.userDetails.name === "111111") {
+      store.dispatch("agoraStore/SetRecorder", randomNumber(6));
     }
     // if (this.userDetails.name) {
     // store.dispatch("agoraStore/StartRecording", {
