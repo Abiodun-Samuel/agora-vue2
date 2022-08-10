@@ -1,8 +1,8 @@
 <template>
   <div class="videocall__box">
     <div class="meet">
-      <!-- :clientConfig="{ mode: 'rtc', codec: 'vp8' }"s -->
       <agora
+        :clientConfig="{ mode: 'rtc', codec: 'vp8' }"
         ref="ar"
         :channel="channel"
         :appid="appid"
@@ -15,9 +15,9 @@
         @user-left="handleUserLeft"
         @join-success="handleJoinSuccess"
         @client-created="handleClientCreated"
+        enableDualStream
         @stream-fallback="handleStreamFallback"
       >
-        <!-- enableDualStream -->
         <agora-audio-sender
           :mute="mute"
           @track-created="handleAudioTrackCreated"
