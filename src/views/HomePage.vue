@@ -18,9 +18,9 @@
         >
           Proceed
         </button>
-        <!-- <button @click="generate" class="btn btn-primary mr-2 my-2 btn-block">
-          click
-        </button> -->
+        <button @click="mess" class="btn btn-primary mr-2 my-2 btn-block">
+          try
+        </button>
       </div>
     </div>
     <!-- <PreLoader /> -->
@@ -34,7 +34,18 @@
 import axios from "axios";
 import { generateUid } from "@/utils/helper";
 import { store } from "@/store";
-// import PreLoader from "@/components/Loader/PreLoader.vue";
+import Pusher from "pusher-js";
+import Api from "@/api";
+
+Pusher.logToConsole = true;
+var pusher = new Pusher(process.env.VUE_APP_APP_KEY, {
+  cluster: process.env.VUE_APP_APP_CLUSTER,
+});
+
+var channel = pusher.subscribe("tone-development");
+channel.bind("ready-ready", function (data) {
+  console.log(data);
+});
 
 export default {
   data() {
@@ -43,6 +54,10 @@ export default {
     };
   },
   // components: { PreLoader },
+  watch: {
+    // pusher() {
+    // },
+  },
   computed: {
     agora() {
       return store.state.agoraStore.resource;
@@ -56,6 +71,14 @@ export default {
   },
 
   methods: {
+    async mess() {
+      try {
+        await Api.post("http://localhost:5000/notary-ready");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     // async gen() {
     //   try {
     //     const response = await axios.post(

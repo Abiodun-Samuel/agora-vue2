@@ -412,7 +412,6 @@ export default {
         .filter(
           (user) => !this.openScreenSharing || user.uid !== this.shareScreenUID
         );
-
       if (user.uid === this.pinedUid) {
         this.pined = false;
         this.pinedUid = null;
