@@ -10,13 +10,10 @@
       </div>
       <div class="col-lg-3 my-2">
         <agora
-          :clientConfig="{ mode: 'rtc', codec: 'vp8' }"
-          ref="ar"
           :channel="channel"
           :appid="appid"
           :token="token"
           :uid="uid"
-          :autoStart="true"
         >
           <agora-audio-sender ref="audioSender"></agora-audio-sender>
           <agora-audio-receiver ref="audioReceiver" />
