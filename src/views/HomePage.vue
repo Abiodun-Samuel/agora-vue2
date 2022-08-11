@@ -131,6 +131,8 @@ export default {
         const response = await axios.get(
           `https://gene-agora-token.herokuapp.com/rtc/newroom/publisher/uid/${name_id}`
         );
+        sessionStorage.setItem("agora", JSON.stringify(response.data));
+
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("appid", response.data.appid);
         sessionStorage.setItem("uid", response.data.uid);

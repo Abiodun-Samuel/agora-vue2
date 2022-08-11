@@ -164,6 +164,7 @@ import { generateName } from "@/utils/helper";
 import { store } from "@/store";
 
 AgoraRTC.setLogLevel(4);
+const agora = sessionStorage.getItem("agora");
 
 export default {
   name: "MeetComponent",
@@ -196,10 +197,10 @@ export default {
   // },
   data() {
     return {
-      uid: sessionStorage.getItem("uid"),
-      channel: sessionStorage.getItem("channel"),
-      appid: sessionStorage.getItem("appid"),
-      token: sessionStorage.getItem("token"),
+      uid: JSON.parse(agora).uid,
+      channel: JSON.parse(agora).channelName,
+      appid: JSON.parse(agora).appid,
+      token: JSON.parse(agora).token,
       preMute: false,
       preCameraOff: false,
       mute: false,

@@ -9,7 +9,7 @@
         <DocumentBox />
       </div>
       <div class="col-lg-3 my-2">
-        <agora
+        <!-- <agora
           :channel="channel"
           :appid="appid"
           :token="token"
@@ -18,18 +18,16 @@
           <agora-audio-sender ref="audioSender"></agora-audio-sender>
           <agora-audio-receiver ref="audioReceiver" />
           <agora-video-sender ref="videoSender">
-            <!-- <div class="sender shadow-lg"></div> -->
           </agora-video-sender>
           <agora-video-receiver ref="videoReceiver"></agora-video-receiver>
-        </agora>
+        </agora> -->
 
-        <!-- <MeetComponent
-          :channel="channel"
+        <MeetComponent />
+        <!-- :channel="channel"
           :appid="appid"
           :uid="uid"
           :token="token"
-          @leave-meeting="handleLeaveMeeting"
-        /> -->
+          @leave-meeting="handleLeaveMeeting" -->
       </div>
     </div>
   </div>
@@ -38,14 +36,14 @@
 <script>
 import DocumentBox from "../components/Document/DocumentBox.vue";
 import ToolBox from "../components/Tool/ToolBox.vue";
-// import MeetComponent from "../components/Meet.vue";
+import MeetComponent from "../components/Meet.vue";
 
 export default {
   name: "NotarySession",
   components: {
     DocumentBox,
     ToolBox,
-    // MeetComponent,
+    MeetComponent,
   },
   data() {
     return {
