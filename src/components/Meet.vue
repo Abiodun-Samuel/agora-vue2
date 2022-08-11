@@ -324,7 +324,7 @@ export default {
 
     if (this.userDetails.name === "111111") {
       store.dispatch("agoraStore/StartRecording", {
-        channel: sessionStorage.getItem("channel"),
+        channel: this.channel,
         uid: this.sessionId,
         mode: "web",
         // token:

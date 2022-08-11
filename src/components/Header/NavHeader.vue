@@ -53,8 +53,8 @@
             <img class="logo" src="../../assets/images/logo.png" alt="logo" />
           </router-link>
         </span>
-        <div>
-          <!-- <div v-if="userDetails.name === 'notary'"> -->
+        <!-- <div> -->
+        <div v-if="userDetails.name === '111111'">
           <button class="btn btn-sm btn-primary" disabled>Cancel</button>
           <button @click="handleLeave" class="btn btn-sm btn-primary ms-1">
             Complete
