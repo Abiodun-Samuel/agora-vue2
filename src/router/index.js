@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import NProgress from "nprogress";
 
 Vue.use(VueRouter);
+
 const HomePage = () =>
   import(/* webpackChunkName: "Homepage" */ "@/views/HomePage.vue");
 const NotarySessionPage = () =>
@@ -17,6 +18,10 @@ const NotaryDashboardPage = () =>
   );
 const NotFound = () =>
   import(/* webpackChunkName: "Notfound" */ "@/views/NotFound/NotFound.vue");
+const NotaryRequest = () =>
+  import(
+    /* webpackChunkName: "RequestNotary" */ "@/views/NotaryRequestPage.vue"
+  );
 
 const routes = [
   {
@@ -24,7 +29,7 @@ const routes = [
     name: "HomePage",
     component: HomePage,
     meta: {
-      title: "ToNote Notary",
+      title: "Home | ToNote",
       transitionName: "fade",
       metaTags: [
         {
@@ -58,20 +63,20 @@ const routes = [
     },
   },
   {
-    path: "/notary-session/test-recording",
+    path: "/notary-session/:sessionId",
     name: "NotarySession",
     component: NotarySessionPage,
     meta: {
-      title: "ToNote Notary",
+      title: "Notary Session | ToNote ",
       transitionName: "fade",
       metaTags: [
         {
           name: "description",
-          content: "ToNote Notary Session page",
+          content: "ToNote Notary Session",
         },
         {
           property: "og:description",
-          content: "ToNote Notary Session page",
+          content: "ToNote Notary Session",
         },
       ],
     },
@@ -88,11 +93,30 @@ const routes = [
     ],
   },
   {
+    path: "/notary-request",
+    name: "NotaryRequest",
+    component: NotaryRequest,
+    meta: {
+      title: "Notary Request | ToNote",
+      transitionName: "fade",
+      metaTags: [
+        {
+          name: "description",
+          content: "ToNote Notary Request",
+        },
+        {
+          property: "og:description",
+          content: "ToNote Notary Request",
+        },
+      ],
+    },
+  },
+  {
     path: "/notary-dashboard",
     name: "NotaryDashboard",
     component: NotaryDashboardPage,
     meta: {
-      title: "ToNote Notary",
+      title: "Notary Dashboard | ToNote",
       transitionName: "fade",
       metaTags: [
         {
@@ -117,7 +141,6 @@ const routes = [
       // },
     ],
   },
-
   // 404 Notfound page
   {
     path: "*",
@@ -159,7 +182,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start();
   /* ---------------------------------------------//? SEO Friendly META -------------------------------------------- */
-
   const nearestWithTitle = to.matched
     .slice()
     .reverse()

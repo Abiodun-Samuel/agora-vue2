@@ -2,8 +2,14 @@ import axios from "axios";
 import NProgress from "nprogress";
 import { store } from "../store";
 
+let theBaseUrl = "";
+if (process.env.NODE_ENV == "development") {
+  theBaseUrl = process.env.VUE_APP_API_LOCAL;
+} else {
+  theBaseUrl = process.env.VUE_APP_API_LIVE;
+}
 const Api = axios.create({
-  baseURL: `${process.env.VUE_APP_API_BASE_URL}`,
+  baseURL: theBaseUrl,
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -31,7 +37,6 @@ const progressFns = () => {
     NProgress.done();
     clearTimeout(progressTimeout);
   };
-
   return { start, stop };
 };
 
@@ -39,7 +44,7 @@ const { start: progressStart, stop: progressStop } = progressFns();
 
 Api.interceptors.request.use(
   async (config) => {
-    let hasToken = await store.getters["userStore/token"];
+    let hasToken = await store.getters["authStore/token"];
     if (hasToken) {
       config.headers["Authorization"] = `Bearer ${hasToken}`;
     }
@@ -56,11 +61,11 @@ Api.interceptors.request.use(
 Api.interceptors.response.use(
   (response) => {
     if (!response.config.__noProgress) progressStop();
-
     return response;
   },
   (error) => {
     progressStop();
+    console.log("error from axios: ", error.response.statusText);
     return Promise.reject(error);
   }
 );

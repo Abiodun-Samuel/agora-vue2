@@ -1,146 +1,121 @@
 <template>
-  <div
-    class="container d-flex justify-content-center align-items-center"
-    style="height: 100vh"
-  >
-    <div class="row">
-      <div class="col-lg-10">
-        <input
-          class="form-control"
-          type="text"
-          v-model="name"
-          placeholder="Enter your name"
-        />
-        <button
-          :disabled="!name || !name.trim()"
-          @click="generate"
-          class="btn btn-primary mr-2 my-2 btn-block"
-        >
-          Proceed
-        </button>
+  <div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-lg-8">
+        <div class="auth-wrapper auth-basic px-2">
+          <div class="auth-inner my-2">
+            <div class="card mb-0">
+              <div class="card-body">
+                <form
+                  @submit.prevent="submitHandler"
+                  class="auth-login-form mt-2"
+                >
+                  <div class="mb-1">
+                    <BaseInput
+                      v-model="email"
+                      label="Email"
+                      type="email"
+                      :error="$v.email.$error ? true : false"
+                      @blur="$v.email.$touch()"
+                    />
+                    <template v-if="$v.email.$error">
+                      <p v-if="!$v.email.required" class="small text-danger">
+                        Email is required.
+                      </p>
+                      <p v-if="!$v.email.email" class="small text-danger">
+                        Please enter a valid email.
+                      </p>
+                    </template>
+                  </div>
 
-        {{ userDetails.name }}
+                  <div class="mb-1">
+                    <BaseInput
+                      v-model="password"
+                      label="Password"
+                      type="password"
+                      :error="$v.password.$error ? true : false"
+                      @blur="$v.password.$touch()"
+                    />
+                    <template v-if="$v.password.$error">
+                      <p v-if="!$v.password.required" class="small text-danger">
+                        Password is required.
+                      </p>
+                      <p
+                        v-if="!$v.password.minLength"
+                        class="small text-danger"
+                      >
+                        Password must be greater than 7 characters.
+                      </p>
+                    </template>
+                  </div>
 
-        <!-- <div
-          style="
-            height: 500px;
-            width: 500px;
-            border: 1px solid red;
-            position: relative;
-          "
-        >
-          <vue-draggable-resizable
-            :w="100"
-            :h="100"
-            @dragging="onDrag"
-            @resizing="onResize"
-            :parent="true"
-          >
-            <p>
-              Hello! I'm a flexible component. You can drag me around and you
-              can resize me.<br />
-              X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height:
-              {{ height }}
-            </p>
-          </vue-draggable-resizable>
-        </div> -->
-        <!-- <button @click="mess" class="btn btn-primary mr-2 my-2 btn-block">
-          try
-        </button> -->
+                  <div class="form-button">
+                    <button
+                      id="submit"
+                      type="submit"
+                      class="btn btn-primary w-100 waves-effect waves-float waves-light"
+                      :disabled="loading || $v.$anyError"
+                    >
+                      <span
+                        v-show="loading"
+                        class="spinner-border text-light spinner-border-sm mx-2"
+                        role="status"
+                      ></span>
+                      <span>Login</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- <PreLoader /> -->
-    <!-- <a
-      href="http://localhost:8080/?user=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vdG9ub3RlLWFwaS5oZXJva3VhcHAuY29tL2FwaS92MS91c2VyL2xvZ2luIiwiaWF0IjoxNjU5NjkwMjI3LCJleHAiOjE2NTk4NjMwMjcsIm5iZiI6MTY1OTY5MDIyNywianRpIjoiNTl0NWpuSXczbmFPU052MSIsInN1YiI6IjE4MzY3ODMwLTUzN2UtNGFjNi04MWNkLTlmYTJmYTRiZjYyZSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.v-f0GRY6aNCXlRvZB7RZZiGno4CyX3ZGK5QUXqxjJJY
-    ></a> -->
   </div>
 </template>
 
 <script>
-import axios from "axios";
-// import { generateUid } from "@/utils/helper";
-import { store } from "@/store";
-import Pusher from "pusher-js";
-import Api from "@/api";
-
-Pusher.logToConsole = true;
-var pusher = new Pusher(process.env.VUE_APP_APP_KEY, {
-  cluster: process.env.VUE_APP_APP_CLUSTER,
-});
-
-var channel = pusher.subscribe("tone-development");
-channel.bind("ready-ready", function (data) {
-  console.log(data);
-});
-
+import { required, minLength, email } from "vuelidate/lib/validators";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      name: null,
+      loading: false,
+      email: "",
+      password: "",
     };
   },
-  // components: { PreLoader },
-  watch: {},
-  computed: {
-    agora() {
-      return store.state.agoraStore.resource;
+  validations: {
+    email: {
+      required,
+      email,
     },
-    userDetails() {
-      return store.getters["userStore/userDetails"];
+    password: {
+      required,
+      minLength: minLength(7),
     },
   },
-  mounted() {
-    // store.dispatch("userStore/setToken", this.$route.query.user);
-  },
-
   methods: {
-    async mess() {
-      try {
-        await Api.post("http://localhost:5000/notary-ready");
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    ...mapActions("authStore", [
+      "loginUser",
+    ]),
 
-    // async gen() {
-    //   try {
-    //     const response = await axios.post(
-    //       `https://gene-agora-token.herokuapp.com/acquire`,
-    //       {
-    //         channel: "demoroom",
-    //         uid: 1503150315,
-    //         mode: "web",
-    //         url: "https://tonote-notary-session.netlify.app/notary-session",
-    //       }
-    //     );
-    //     console.log(response);
-    //     // commit("SET_RESOURCE", response.data.resourceId);
-    //   } catch (error) {
-    //     // Vue.$toast.error(error);
-    //   }
-    //   // store.dispatch("agoraStore/getResourceId", {
-    //   //   channel: "room",
-    //   //   uid: 1503150315,
-    //   //   mode: "web",
-    //   //   url: "https://tonote-notary-session.netlify.app/notary-session",
-    //   // });
-    // },
-    async generate() {
-      try {
-        const name_id = this.name;
-        const response = await axios.get(
-          `https://gene-agora-token.herokuapp.com/rtc/newroom/publisher/uid/${name_id}`
-        );
-        sessionStorage.setItem("agora", JSON.stringify(response.data));
-        setTimeout(() => {
-          this.$router.push({ path: "/waiting-page" });
-        }, 500);
-        store.commit("userStore/SET_NAME", this.name);
-      } catch (error) {
-        console.log(error);
+    submitHandler() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let formData = {
+          email: this.email,
+          password: this.password,
+        };
+        this.loading = true;
+        this.loginUser(formData);
+        this.loading = false;
       }
     },
   },
 };
 </script>
-<style scoped></style>
+
+<style lang="css" scoped>
+@import "@/assets/css/home.css";
+</style>
